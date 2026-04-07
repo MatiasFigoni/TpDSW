@@ -11,7 +11,7 @@
 
 ## Tema
 ### Descripción
-*2 a 6 líneas describiendo el negocio (menos es más)*
+*Un sistema de Matcheos de Equipos, para organizar partidos de distintos deportes. Entre gente interesada en Torneos y encuentros amistosos Deportivos.*
 
 ### Modelo
 ![imagen del modelo]()
