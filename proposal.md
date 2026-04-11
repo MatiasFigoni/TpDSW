@@ -2,9 +2,9 @@
 
 ## Grupo
 ### Integrantes
-*53660 - Figoni, Matias
-*55276 - Díaz, Marcio
-*54685 - Mascheroni, Lucas
+* 53660 - Figoni, Matias
+* 55276 - Díaz, Marcio
+* 54685 - Mascheroni, Lucas
 
 ### Repositorios
 * [frontend app](http://hyperlinkToGihubOrGitlab)
