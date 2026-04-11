@@ -17,7 +17,7 @@
 
 
 ### Modelo
-![imagen del modelo]()
+![imagen del modelo](Modelo.jpeg)
 
 ## Alcance Funcional 
 
