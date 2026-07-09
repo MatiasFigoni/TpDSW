@@ -1,0 +1,20 @@
+{
+  "name": "Backend-DSW",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ./tsconfig.json",
+    "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/app.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.3",
+  "devDependencies": {
+    "tsc-watch": "6.0.4",
+    "typescript": "5.1.3"
+  }
+}
