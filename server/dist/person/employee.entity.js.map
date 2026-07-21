@@ -1,0 +1,1 @@
+{"version":3,"file":"employee.entity.js","sourceRoot":"","sources":["../../src/person/employee.entity.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,aAAa,CAAC;AACjC,OAAO,EAAE,MAAM,EAAE,MAAM,oBAAoB,CAAC;AAE5C,MAAM,OAAO,QAAS,SAAQ,MAAM;IAApC;;QACE,aAAQ,GAAS,EAAE,CAAC;QACpB,aAAQ,GAAS,EAAE,CAAC;QACpB,OAAE,GAAW,MAAM,CAAC,UAAU,EAAE,CAAC;IAEnC,CAAC;CAAA"}

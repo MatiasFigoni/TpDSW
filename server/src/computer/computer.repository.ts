@@ -1,39 +1,32 @@
 import { Repository } from '../shared/repository.js';
 import { Computer } from './computer.entity.js';
-
-const computer=[
-  new Computer('Gaming','PC de alto rendimiento',1500,1),
-]
+import {db} from '../shared/db/conn.js'
+import { ObjectId } from 'mongodb';
+const computers= db.collection<Computer>('computers')
 
 export class ComputerRepository implements Repository<Computer> {
-  public findAll(): Computer[] | undefined {
-    return computer;
+  public async findAll(): Promise<Computer[] | undefined> {
+    return await computers.find().toArray();
   }
 
-  public findOne(item: { id: string }): Computer | undefined {
-    return computer.find((computer) => computer.id === item.id);
+  public async findOne(item: { id: string }): Promise<Computer | undefined> {
+    const _id= new ObjectId(item.id)
+    return (await computers.findOne({ _id })) || undefined;
   }
 
-  public add(item: Computer): Computer | undefined {
-    computer.push(item);
+  public async add(item: Computer): Promise<Computer | undefined> {
+    item._id = (await computers.insertOne(item)).insertedId;
     return item;
   }
 
-  public update(item: Computer): Computer | undefined {
-    const index = computer.findIndex((computer) => computer.id === item.id);
-    if (index !== -1) {
-      computer[index] = item;
-      return item;
-    }
-    return undefined;
+  public async update(id: string, item: Computer): Promise<Computer | undefined> {
+    const _id = new ObjectId(id);
+    return (await computers.findOneAndUpdate({ _id }, { $set: item }, { returnDocument: 'after' })) || undefined
   }
 
-  public delete(item: { id: string }): Computer | undefined {
-    const index = computer.findIndex((computer) => computer.id === item.id);
-    if (index !== -1) {
-      return computer.splice(index, 1)[0];
-    }
-    return undefined;
+  public async delete(item: { id: string }): Promise<Computer | undefined> {
+    const _id = new ObjectId(item.id)
+    return (await computers.findOneAndDelete({ _id })) || undefined;  
   }
 
 }
