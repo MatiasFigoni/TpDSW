@@ -10,39 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Entity, Property } from '@mikro-orm/core';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 export let Person = class Person extends BaseEntity {
-    // Getters y Setters
-    get name() { return this._name; }
-    set name(value) { this._name = value; }
-    get lastName() { return this._lastName; }
-    set lastName(value) { this._lastName = value; }
-    get phoneNumber() { return this._phoneNumber; }
-    set phoneNumber(value) { this._phoneNumber = value; }
-    get email() { return this._email; }
-    set email(value) { this._email = value; }
-    get dni() { return this._dni; }
-    set dni(value) { this._dni = value; }
 };
 __decorate([
-    Property({ fieldName: 'name' }),
+    Property(),
     __metadata("design:type", String)
-], Person.prototype, "_name", void 0);
+], Person.prototype, "name", void 0);
 __decorate([
-    Property({ fieldName: 'last_name' }),
+    Property(),
     __metadata("design:type", String)
-], Person.prototype, "_lastName", void 0);
+], Person.prototype, "lastName", void 0);
 __decorate([
-    Property({ fieldName: 'phone_number' }),
+    Property(),
     __metadata("design:type", String)
-], Person.prototype, "_phoneNumber", void 0);
+], Person.prototype, "phoneNumber", void 0);
 __decorate([
-    Property({ fieldName: 'email' }),
+    Property(),
     __metadata("design:type", String)
-], Person.prototype, "_email", void 0);
+], Person.prototype, "email", void 0);
 __decorate([
-    Property({ fieldName: 'dni' }),
+    Property(),
     __metadata("design:type", String)
-], Person.prototype, "_dni", void 0);
+], Person.prototype, "dni", void 0);
 Person = __decorate([
-    Entity()
+    Entity({ abstract: true })
 ], Person);
 //# sourceMappingURL=person.entity.js.map

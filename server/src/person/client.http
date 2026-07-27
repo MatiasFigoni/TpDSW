@@ -1,35 +1,33 @@
 ### obtener todas
-GET http://localhost:3000/api/employees
+GET http://localhost:3000/api/clients
 
 
 #### obtener una 
-GET http://localhost:3000/api/employees/2
+GET http://localhost:3000/api/clients/2
 
 ### Cargar nueva 
-POST http://localhost:3000/api/employees
+POST http://localhost:3000/api/clients
 Content-Type: application/json
 
 {
   "name": "Wachin",
-  "lastName":"Super",
+  "lastName":"Mega",
   "phoneNumber": 3412243123,
   "email": "wachincito@gmail.com",
   "dni": 1234,
-  "username": "wachincito123",
-  "password": "wachin"
+  "status": false
 }
 
 #     name: req.body.name,
-#     lastname: req.body.lastname,
+#     lastName: req.body.lastName,
 #     phoneNumber: req.body.phoneNumber,
 #     email: req.body.email,
 #     dni: req.body.dni,
 
-#     username: req.body.username,
-#     password: req.body.password
+#     status: req.body.status
 
 ###modificar 
-put http://localhost:3000/api/employees/2
+put http://localhost:3000/api/clients/2
 Content-Type: application/json
 
   {
@@ -41,5 +39,5 @@ Content-Type: application/json
   }
 
 #### Eliminar 
-delete http://localhost:3000/api/employees/1
+delete http://localhost:3000/api/clients/1
 
