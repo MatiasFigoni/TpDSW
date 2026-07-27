@@ -1,0 +1,45 @@
+### obtener computadoras
+GET http://localhost:3000/api/employees
+
+
+#### obtener una computadora
+GET http://localhost:3000/api/employees/2
+
+### Cargar nueva computadora
+POST http://localhost:3000/api/employees
+Content-Type: application/json
+
+{
+  "name": "Wachin",
+  "lastName":"Super",
+  "phoneNumber": 3412243123,
+  "email": "wachincito@gmail.com",
+  "dni": 1234,
+  "username": "wachincito123",
+  "password": "wachin"
+}
+
+#     name: req.body.name,
+#     lastname: req.body.lastname,
+#     phoneNumber: req.body.phoneNumber,
+#     email: req.body.email,
+#     dni: req.body.dni,
+
+#     username: req.body.username,
+#     password: req.body.password
+
+###modificar computadora
+put http://localhost:3000/api/employees/2
+Content-Type: application/json
+
+  {
+    "category": "PcGamer",
+    "description": "Rtx 308011ti + Ryzen 7 5700x",
+    "price": 10200,
+    "pcNumber": 3,
+    "status": true
+  }
+
+#### Eliminar computadora
+delete http://localhost:3000/api/employees/1
+

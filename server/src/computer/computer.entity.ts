@@ -1,14 +1,30 @@
-import { ObjectId } from 'mongodb';
-import crypto from 'node:crypto';
+import {
+  Entity,
+  Property
 
+  // ManyToMany,
+  // Cascade,
+  // ManyToOne,
+  // Rel,
+} from '@mikro-orm/core'
+import { BaseEntity } from '../shared/db/baseEntity.entity.js'
 
-export class Computer {
-  status: boolean = false;
-  constructor(
-    public category: string, 
-    public description: string, 
-    public price: number, 
-    public pcNumber: number, 
-    public _id?: ObjectId)
-    {}
+@Entity()
+export class Computer extends BaseEntity {
+
+  @Property({nullable:false})
+  category!:string
+
+  @Property ({nullable:false})
+  status!:boolean
+
+  @Property ({nullable:false})
+  description!:string
+
+  @Property ({nullable:false})
+  price!:number
+  
+  @Property ({nullable:false})
+  pcNumber!:number
+
 }

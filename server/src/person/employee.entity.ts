@@ -1,9 +1,13 @@
-import crypto from 'node:crypto';
+import { Entity, Property } from '@mikro-orm/core';
+import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 import { Person } from './person.entity.js';
 
-export class Employee extends Person {
-  username: string="";
-  password: string="";
-  id: string = crypto.randomUUID();
+@Entity()
+export class Employee extends Person{
+  @Property()
+  username!: string;
+
+  @Property()
+  password!: string;
 
 }

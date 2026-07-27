@@ -1,0 +1,24 @@
+// Comandos para DB
+
+// use CyberDB
+
+//insert data
+db.computers.insertOne({
+  category: "Gaming",
+  description: "PC de alto rendimiento",
+  price: 1500,
+  stock: 1
+})
+
+db.computers.find()
+
+
+//update 
+db.computers.updateOne({ category: "Gaming" }, { $set: { description: "PC de bajo rendimiento" } })
+
+//delete
+db.computers.deleteOne({ category: "Gaming" })
+
+
+// comando para docker mysql
+docker run --name CyberDB-DSW -v c:/docker-volumes/CyberDB-DSW:/var/lib/mysql -e MYSQL_ROOT_HOST='%' -e MYSQL_ALLOW_EMPTY_PASSWORD="yes" -e MYSQL_PASSWORD="dsw" -e MYSQL_USER="dsw" -e MYSQL_DATABASE='CyberDB' -p 3307:3306 -d percona/percona-server

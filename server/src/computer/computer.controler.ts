@@ -1,15 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import { ComputerRepository } from './computer.repository.js';
 import { Computer } from './computer.entity.js';
+import { orm } from '../shared/db/orm.js';
+// import { computerRouter } from './computer.routes.js';
 
-const repository = new ComputerRepository();
-    {}
+//Realizar CRUD de Computadoras.
+//Realizar cambio de estado de computadoras (disponible/no disponible) con un endpoint específico para ello.
+//Pasar todo a sql
+
+const em = orm.em
+
 function sanitizeComputerData(req: Request, res: Response, next: NextFunction){
   req.body.sanitizedInput = {
     category: req.body.category,
     description: req.body.description,
     price: req.body.price,
-    pcNumber: req.body.pcNumber}
+    pcNumber: req.body.pcNumber,
+    status: req.body.status
+  }
+    
   
   Object.keys(req.body.sanitizedInput).forEach(key => {
     if (req.body.sanitizedInput[key] === undefined) {
@@ -20,50 +28,72 @@ function sanitizeComputerData(req: Request, res: Response, next: NextFunction){
 }
 
 async function findAll(req: Request, res: Response){
-  res.json( { data: await repository.findAll()});
+  try {
+    const computer = await em.find(
+      Computer,
+      {},
+      // { populate: ['']}
+    )
+    if (computer.length===0)
+      return res.status(404).json({
+        message:'the computer database is empty.',
+        data: [],
+      })
+    res.json( { message: 'found all computers', data:computer});
+  } catch (error:any) {
+    res.status(500).json({message: error.mesage})
+  }
 }
 
 async function findOne(req: Request, res: Response){
-  const id = req.params.id
-  const computer = await repository.findOne({ id })
-  if (!computer) {
-    return res.status(404).send({ message: 'Computer not found' });
+  try {
+    const id = Number.parseInt(req.params.id)
+    const computer = await em.findOneOrFail(
+      Computer,
+      {id}
+
+    )
+    res.status(200).json({ message: 'found computer', data:computer})
+
+  } catch (error:any) {
+    res.status(500).json({ message: error.message })
   }
-  res.json({ data: computer });
 }
 
-async function add(req: Request, res: Response){
-  const input = req.body.sanitizedInput
-  
-  const ComputerInput = new Computer(
-    input.category,
-    input.description,
-    input.price,
-    input.pcNumber,
-  )
-
-  const computer = await repository.add(ComputerInput)
-  return res.status(201).send({ message: 'Computer created successfully', data: computer });
-  
-}
-
-async function update(req: Request, res: Response){
-  const computer = await repository.update(req.params.id, req.body.sanitizedInput)
-
-  if (!computer) {
-    return res.status(404).send({ message: 'Computer not found' });
+async function add(req: Request, res: Response) {
+  try {
+    const computer = em.create(Computer, req.body.sanitizedInput)
+    await em.flush()
+    res.status(201).json({ message: 'Computer created', data: computer })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
   }
-  return res.status(200).send({ message: 'Computer updated successfully', data: computer });
 }
 
-async function remove(req: Request, res: Response){
-  const id = req.params.id
-  const computer = await repository.delete({ id })
-  if (!computer) {
-    return res.status(404).send({ message: 'Computer not found' });
-  } else {res.status(200).send({ message: 'Computer deleted successfully' })};
+async function update(req: Request, res: Response) {
+  try {
+    const id = Number.parseInt(req.params.id)
+    const computerToUpdate = await em.findOneOrFail(Computer, { id })
+    em.assign(computerToUpdate, req.body.sanitizedInput)
+    await em.flush()
+    res
+      .status(200)
+      .json({ message: 'Computer updated', data: computerToUpdate })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }
 
-
+async function remove(req: Request, res: Response) {
+  try {
+    const id = Number.parseInt(req.params.id)
+    const computer = em.getReference(Computer, id)
+    await em.remove(computer)
+    await em.flush()
+    res.status(200).json({ message: 'Computer removed' })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
+}
 
 export { sanitizeComputerData, findAll, findOne, add, update, remove }

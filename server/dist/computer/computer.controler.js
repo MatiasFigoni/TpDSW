@@ -1,13 +1,17 @@
-import { ComputerRepository } from './computer.repository.js';
 import { Computer } from './computer.entity.js';
-const repository = new ComputerRepository();
-{ }
+import { orm } from '../shared/db/orm.js';
+// import { computerRouter } from './computer.routes.js';
+//Realizar CRUD de Computadoras.
+//Realizar cambio de estado de computadoras (disponible/no disponible) con un endpoint específico para ello.
+//Pasar todo a sql
+const em = orm.em;
 function sanitizeComputerData(req, res, next) {
     req.body.sanitizedInput = {
         category: req.body.category,
         description: req.body.description,
         price: req.body.price,
-        pcNumber: req.body.pcNumber
+        pcNumber: req.body.pcNumber,
+        status: req.body.status
     };
     Object.keys(req.body.sanitizedInput).forEach(key => {
         if (req.body.sanitizedInput[key] === undefined) {
@@ -17,39 +21,64 @@ function sanitizeComputerData(req, res, next) {
     next();
 }
 async function findAll(req, res) {
-    res.json({ data: await repository.findAll() });
+    try {
+        const computer = await em.find(Computer, {});
+        if (computer.length === 0)
+            return res.status(404).json({
+                message: 'the computer database is empty.',
+                data: [],
+            });
+        res.json({ message: 'found all computers', data: computer });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.mesage });
+    }
 }
 async function findOne(req, res) {
-    const id = req.params.id;
-    const computer = await repository.findOne({ id });
-    if (!computer) {
-        return res.status(404).send({ message: 'Computer not found' });
+    try {
+        const id = Number.parseInt(req.params.id);
+        const computer = await em.findOneOrFail(Computer, { id });
+        res.status(200).json({ message: 'found computer', data: computer });
     }
-    res.json({ data: computer });
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 async function add(req, res) {
-    const input = req.body.sanitizedInput;
-    const ComputerInput = new Computer(input.category, input.description, input.price, input.pcNumber);
-    const computer = await repository.add(ComputerInput);
-    return res.status(201).send({ message: 'Computer created successfully', data: computer });
+    try {
+        const computer = em.create(Computer, req.body.sanitizedInput);
+        await em.flush();
+        res.status(201).json({ message: 'Computer created', data: computer });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 async function update(req, res) {
-    const computer = await repository.update(req.params.id, req.body.sanitizedInput);
-    if (!computer) {
-        return res.status(404).send({ message: 'Computer not found' });
+    try {
+        const id = Number.parseInt(req.params.id);
+        const computerToUpdate = await em.findOneOrFail(Computer, { id });
+        em.assign(computerToUpdate, req.body.sanitizedInput);
+        await em.flush();
+        res
+            .status(200)
+            .json({ message: 'Computer updated', data: computerToUpdate });
     }
-    return res.status(200).send({ message: 'Computer updated successfully', data: computer });
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 async function remove(req, res) {
-    const id = req.params.id;
-    const computer = await repository.delete({ id });
-    if (!computer) {
-        return res.status(404).send({ message: 'Computer not found' });
+    try {
+        const id = Number.parseInt(req.params.id);
+        const computer = em.getReference(Computer, id);
+        await em.remove(computer);
+        await em.flush();
+        res.status(200).json({ message: 'Computer removed' });
     }
-    else {
-        res.status(200).send({ message: 'Computer deleted successfully' });
+    catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    ;
 }
 export { sanitizeComputerData, findAll, findOne, add, update, remove };
 //# sourceMappingURL=computer.controler.js.map
