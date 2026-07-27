@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchComputers } from "./services/computerServices.ts";
+import Home from "./pages/home.tsx"
 
 import Header from "./components/header/header.tsx";
 
@@ -26,6 +27,7 @@ function App(){
   return (
     <>
     <Header />
+    <Home/>
     </>
   );
 }
