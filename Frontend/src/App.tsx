@@ -1,33 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchComputers } from "./services/computerServices.ts";
 import Home from "./pages/home.tsx"
+import { BrowserRouter, Route, Routes } from "react-router";
+import MainLayout from "./layouts/mainLayout.tsx";
+import PcMap from "./pages/PcMap.tsx";
 
-import Header from "./components/header/header.tsx";
-
-function App(){
-  const computerListQuery = useQuery({
-    queryKey:['computers'],
-    queryFn: fetchComputers,
-
-  },);
-
-  if (computerListQuery.isPending)
-    return (
-      <div>
-        Cargando...
-      </div>);
-
-  if (computerListQuery.isError)
-    return (
-      <div>
-        Hubo un error... <br />
-        Error: {computerListQuery.error.message}
-      </div>);
+function App() {
 
   return (
     <>
-    <Header />
-    <Home/>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout/>}>
+            <Route path="/" element={<Home />} />
+            <Route path="/PcMap" element={<PcMap/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
