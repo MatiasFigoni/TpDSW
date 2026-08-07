@@ -17,7 +17,7 @@
 
 
 ### Modelo
-![imagen del modelo](Modelo.jpeg)
+![imagen del modelo](DER_Ciber_DSW.png)
 
 ## Alcance Funcional 
 
