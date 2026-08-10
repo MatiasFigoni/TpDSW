@@ -12,6 +12,7 @@ const em = orm.em
 
 function sanitizeComputerData(req: Request, res: Response, next: NextFunction){
   req.body.sanitizedInput = {
+    maintenance: req.body.maintenance,
     category: req.body.category,
     pcNumber: req.body.pcNumber,
     description: req.body.description,
@@ -32,8 +33,8 @@ async function findAll(req: Request, res: Response){
     const computer = await em.find(
       Computer,
       {},
-      // { populate: ['category', 'maintenance']}
-      { populate: ['category']}
+      { populate: ['category', 'maintenance']}
+
 
     )
     if (computer.length===0)

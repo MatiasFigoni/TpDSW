@@ -7,6 +7,7 @@ import { orm } from '../shared/db/orm.js';
 const em = orm.em;
 function sanitizeComputerData(req, res, next) {
     req.body.sanitizedInput = {
+        maintenance: req.body.maintenance,
         category: req.body.category,
         pcNumber: req.body.pcNumber,
         description: req.body.description,
@@ -21,9 +22,7 @@ function sanitizeComputerData(req, res, next) {
 }
 async function findAll(req, res) {
     try {
-        const computer = await em.find(Computer, {}, 
-        // { populate: ['category', 'maintenance']}
-        { populate: ['category'] });
+        const computer = await em.find(Computer, {}, { populate: ['category', 'maintenance'] });
         if (computer.length === 0)
             return res.status(404).json({
                 message: 'the computer database is empty.',

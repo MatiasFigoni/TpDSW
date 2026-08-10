@@ -30,9 +30,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Computer.prototype, "pcNumber", void 0);
 __decorate([
-    ManyToOne({ entity: () => Maintenance,
-        nullable: false,
-    }),
+    ManyToOne(() => Maintenance, { nullable: false }),
     __metadata("design:type", Object)
 ], Computer.prototype, "maintenance", void 0);
 Computer = __decorate([

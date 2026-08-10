@@ -25,8 +25,7 @@ export class Computer extends BaseEntity {
   @Property ({nullable:false})
   pcNumber!:number
   
-  @ManyToOne({entity:()=>Maintenance,
-    nullable:false,
-  })
-  maintenance?: Rel<Maintenance>
+  @ManyToOne(() => Maintenance, { nullable: false })
+  maintenance!: Rel<Maintenance>
+  
 }
