@@ -1,16 +1,15 @@
 import { Computer } from './computer.entity.js';
 import { orm } from '../shared/db/orm.js';
-// import { computerRouter } from './computer.routes.js';
 //Realizar CRUD de Computadoras.
 //Realizar cambio de estado de computadoras (disponible/no disponible) con un endpoint específico para ello.
 //Pasar todo a sql
+// maintenance: req.body.maintenance, 
 const em = orm.em;
 function sanitizeComputerData(req, res, next) {
     req.body.sanitizedInput = {
         category: req.body.category,
-        description: req.body.description,
-        price: req.body.price,
         pcNumber: req.body.pcNumber,
+        description: req.body.description,
         status: req.body.status
     };
     Object.keys(req.body.sanitizedInput).forEach(key => {
@@ -22,7 +21,9 @@ function sanitizeComputerData(req, res, next) {
 }
 async function findAll(req, res) {
     try {
-        const computer = await em.find(Computer, {});
+        const computer = await em.find(Computer, {}, 
+        // { populate: ['category', 'maintenance']}
+        { populate: ['category'] });
         if (computer.length === 0)
             return res.status(404).json({
                 message: 'the computer database is empty.',
@@ -37,7 +38,7 @@ async function findAll(req, res) {
 async function findOne(req, res) {
     try {
         const id = Number.parseInt(req.params.id);
-        const computer = await em.findOneOrFail(Computer, { id });
+        const computer = await em.findOneOrFail(Computer, { id }, { populate: ['category', 'maintenance'] });
         res.status(200).json({ message: 'found computer', data: computer });
     }
     catch (error) {

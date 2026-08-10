@@ -1,0 +1,38 @@
+
+### obtener computadoras
+GET http://localhost:3000/api/computer/categories
+
+
+#### obtener Una
+GET http://localhost:3000/api/computer/categories/3
+
+### Cargar
+POST http://localhost:3000/api/computer/categories
+Content-Type: application/json
+
+{
+  "description": "Rtx 3080ti + Ryzen 7 5800x",
+  "price": 1000
+}
+
+###modificar 
+put http://localhost:3000/api/computer/categories/0
+Content-Type: application/json
+
+  {
+    "description": "Rtx 308011ti + Ryzen 7 5700x",
+    "price": 10200
+  }
+
+###modificar parcialmente computadora  Es innecesaria esta, despues lo saco.
+PATCH http://localhost:3000/api/computer/categories/1
+Content-Type: application/json
+
+  {
+    "description": "PcGamer",
+    "price": 1000
+
+  }
+#### Eliminar computadora
+delete http://localhost:3000/api/computer/categories/1
+

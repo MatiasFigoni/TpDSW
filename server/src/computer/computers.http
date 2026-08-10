@@ -3,18 +3,18 @@ GET http://localhost:3000/api/computers
 
 
 #### obtener una computadora
-GET http://localhost:3000/api/computers/2
+GET http://localhost:3000/api/computers/0
 
+  # "maintenance": 0,
 ### Cargar nueva computadora
 POST http://localhost:3000/api/computers
 Content-Type: application/json
 
 {
-  "category": "PcGamer",
-  "status":false,
-  "description": "Rtx 3080ti + Ryzen 7 5800x",
-  "price": 1000,
-  "pcNumber": 2
+  "category": 6,
+  "status": "0",
+  "description": "Rtx 3080ti + R1yzen 7 5700x",
+  "pcNumber": 13
 }
 
   # "id": "6a5ece301a9b3155cab3e3f1"

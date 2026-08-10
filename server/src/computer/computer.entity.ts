@@ -1,30 +1,32 @@
 import {
   Entity,
-  Property
+  Property,
+  ManyToOne,
+  Rel,
+  
 
-  // ManyToMany,
-  // Cascade,
-  // ManyToOne,
-  // Rel,
 } from '@mikro-orm/core'
 import { BaseEntity } from '../shared/db/baseEntity.entity.js'
+import { Category } from './category.entity.js'
+import { Maintenance } from './maintenance.entity.js'
 
 @Entity()
 export class Computer extends BaseEntity {
 
-  @Property({nullable:false})
-  category!:string
-
+  @ManyToOne(() => Category, { nullable: false })
+  category!: Rel<Category>
+  
   @Property ({nullable:false})
-  status!:boolean
-
+  status!:string
+  
   @Property ({nullable:false})
   description!:string
-
-  @Property ({nullable:false})
-  price!:number
   
   @Property ({nullable:false})
   pcNumber!:number
-
+  
+  @ManyToOne({entity:()=>Maintenance,
+    nullable:false,
+  })
+  maintenance?: Rel<Maintenance>
 }

@@ -18,11 +18,11 @@ export const orm = await MikroORM.init({
 });
 export const syncSchema = async () => {
     const generator = orm.getSchemaGenerator();
-    await generator.updateSchema();
+    // await generator.updateSchema();
     // await orm.schema.updateSchema()
-    /*
     await generator.dropSchema();
     await generator.createSchema();
+    /*
     */
 };
 //# sourceMappingURL=orm.js.map

@@ -7,35 +7,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, ManyToOne, } from '@mikro-orm/core';
+import { Cascade, Collection, Entity, OneToMany, Property } from '@mikro-orm/core';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
-import { Category } from './category.entity.js';
-import { Maintenance } from './maintenance.entity.js';
-export let Computer = class Computer extends BaseEntity {
+import { Computer } from './computer.entity.js';
+export let Category = class Category extends BaseEntity {
+    constructor() {
+        super(...arguments);
+        this.computers = new Collection(this);
+    }
 };
 __decorate([
-    ManyToOne(() => Category, { nullable: false }),
-    __metadata("design:type", Object)
-], Computer.prototype, "category", void 0);
-__decorate([
     Property({ nullable: false }),
     __metadata("design:type", String)
-], Computer.prototype, "status", void 0);
-__decorate([
-    Property({ nullable: false }),
-    __metadata("design:type", String)
-], Computer.prototype, "description", void 0);
+], Category.prototype, "description", void 0);
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", Number)
-], Computer.prototype, "pcNumber", void 0);
+], Category.prototype, "price", void 0);
 __decorate([
-    ManyToOne({ entity: () => Maintenance,
-        nullable: false,
+    OneToMany(() => Computer, (computer) => computer.category, {
+        cascade: [Cascade.ALL],
     }),
     __metadata("design:type", Object)
-], Computer.prototype, "maintenance", void 0);
-Computer = __decorate([
+], Category.prototype, "computers", void 0);
+Category = __decorate([
     Entity()
-], Computer);
-//# sourceMappingURL=computer.entity.js.map
+], Category);
+//# sourceMappingURL=category.entity.js.map

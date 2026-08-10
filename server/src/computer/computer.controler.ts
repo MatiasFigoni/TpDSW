@@ -1,20 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import { Computer } from './computer.entity.js';
 import { orm } from '../shared/db/orm.js';
-// import { computerRouter } from './computer.routes.js';
+import { computerRouter } from './computer.routes.js';
 
 //Realizar CRUD de Computadoras.
 //Realizar cambio de estado de computadoras (disponible/no disponible) con un endpoint específico para ello.
 //Pasar todo a sql
+// maintenance: req.body.maintenance, 
 
 const em = orm.em
 
 function sanitizeComputerData(req: Request, res: Response, next: NextFunction){
   req.body.sanitizedInput = {
     category: req.body.category,
-    description: req.body.description,
-    price: req.body.price,
     pcNumber: req.body.pcNumber,
+    description: req.body.description,
     status: req.body.status
   }
     
@@ -32,7 +32,9 @@ async function findAll(req: Request, res: Response){
     const computer = await em.find(
       Computer,
       {},
-      // { populate: ['']}
+      // { populate: ['category', 'maintenance']}
+      { populate: ['category']}
+
     )
     if (computer.length===0)
       return res.status(404).json({
@@ -50,8 +52,9 @@ async function findOne(req: Request, res: Response){
     const id = Number.parseInt(req.params.id)
     const computer = await em.findOneOrFail(
       Computer,
-      {id}
-
+      {id},
+      { populate: ['category', 'maintenance']}
+      
     )
     res.status(200).json({ message: 'found computer', data:computer})
 

@@ -1,0 +1,66 @@
+### obtener computadoras
+GET http://localhost:3000/api/computer/maintenance
+
+
+#### obtener una computadora
+GET http://localhost:3000/api/computer/maintenance/1
+
+
+### Cargar nueva computadora
+POST http://localhost:3000/api/computer/maintenance
+Content-Type: application/json
+
+{
+  "description": "Mantenimiento preventivo",
+  "start_date": "2024-06-01",
+  "end_date": "2024-06-10",
+  "status":"En mantenimiento"
+}
+
+# @Entity()
+# export class Maintenance extends BaseEntity {
+  
+#   @Property ({ nullable:false})
+#   description!:string
+  
+#   @Property ({type: 'date', nullable:true})
+#   end_date!:Date
+  
+#   @Property ({type: 'date', nullable:true})
+#   start_date!:Date
+  
+#   @Property ({nullable:false})
+#   status!:string
+
+#   @OneToMany(() => Computer, (computer) => computer.maintenance, {
+#     cascade: [Cascade.ALL],
+#   })
+#   computer = new Collection<Computer>(this)
+# }
+
+###modificar computadora
+put http://localhost:3000/api/computer/maintenance/2
+Content-Type: application/json
+
+  {
+    "category": "PcGamer",
+    "description": "Rtx 308011ti + Ryzen 7 5700x",
+    "price": 10200,
+    "pcNumber": 3,
+    "status": true
+  }
+
+###modificar parcialmente computadora  Es innecesaria esta, despues lo saco.
+PATCH http://localhost:3000/api/computer/maintenance/2
+Content-Type: application/json
+
+  {
+    "category": "PcGamer",
+      "description": "Rtx 3080ti + Ryzen 7 5700x",
+      "price": 1000,
+      "pcNumber": 21,
+      "status": false
+  }
+#### Eliminar computadora
+delete http://localhost:3000/api/computer/maintenance/1
+
