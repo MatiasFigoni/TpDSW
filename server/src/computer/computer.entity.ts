@@ -7,7 +7,7 @@ import {
 
 } from '@mikro-orm/core'
 import { BaseEntity } from '../shared/db/baseEntity.entity.js'
-import { Category } from './category.entity.js'
+import { Category } from '../category/category.entity.js';
 import { Maintenance } from './maintenance.entity.js'
 
 @Entity()
