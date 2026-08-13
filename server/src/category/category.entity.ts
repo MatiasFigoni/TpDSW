@@ -1,4 +1,3 @@
-/*CATEGORY.ENTITY.TS*/
 
 import { Entity, Property, OneToMany, Cascade, Collection } from '@mikro-orm/core';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
