@@ -1,0 +1,18 @@
+.grid-computers {
+  display: grid;
+  /* 5 columnas: 2 compus | 1 pasillo de 40px | 2 compus */
+  grid-template-columns: repeat(2, 0fr) 40px repeat(2, 0fr);
+  gap: 12px;
+}
+
+/* 
+  En cada grupo de 5 computadoras (1 fila):
+  La 4ta computadora salta automáticamente a la columna 4,
+  dejando la columna 3 (el pasillo) vacía.
+*/
+.grid-computers > *:nth-child(4n + 3) {
+  grid-column-start: 4;
+}
+
+
+

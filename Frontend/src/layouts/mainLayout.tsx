@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import Header from "../components/header/Header.tsx";
+import Header from "../components/header/header.tsx";
 import Highlight from "../components/Highlights/Highlights.tsx";
 
 function MainLayout(){
