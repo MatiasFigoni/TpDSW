@@ -13,7 +13,7 @@ export class Category extends BaseEntity {
     hourly_price!: number;
 
 
-    @OneToMany(() => Computer, (computer) => computer.category, {
+    @OneToMany(() => Computer, (computer: Computer) => computer.category, {
         cascade: [Cascade.ALL],
     })
     computers = new Collection<Computer>(this);

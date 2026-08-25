@@ -1,18 +1,17 @@
 /*category.routes.ts */
-import { Router, Request, Response } from 'express';
-import { CategoryController } from './category.controller.js'; 
-import { CategoryRepository } from './category.repository.js'; 
-import { CategoryService } from './category.service.js'; 
-import { orm } from '../shared/db/orm.js'; 
-
-const repository = new CategoryRepository(orm.em);
-const service = new CategoryService(repository);
-const controller = new CategoryController(service);
+import { Router } from 'express';
+import { sanitizeCategoryData, findAll, findOne, add, update, remove } from './category.controller.js';
 
 const router = Router();
+router.get('/', findAll);
 
-router.get('/', (req: Request, res: Response) => {
-    controller.getAll(req, res);
-});
+router.get('/:id', findOne);
+
+router.post('/', sanitizeCategoryData, add ) ;
+
+router.put('/:id', sanitizeCategoryData, update );
+    
+router.delete('/:id', remove);
 
 export default router;
+//# sourceMappingURL=category.routes.js.map

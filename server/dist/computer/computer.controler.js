@@ -1,5 +1,6 @@
 import { Computer } from './computer.entity.js';
 import { orm } from '../shared/db/orm.js';
+/* import { computerRouter } from './computer.routes.js'; */
 //Realizar CRUD de Computadoras.
 //Realizar cambio de estado de computadoras (disponible/no disponible) con un endpoint específico para ello.
 //Pasar todo a sql
