@@ -3,8 +3,10 @@ import { fetchComputers } from "../../services/computerServices.ts";
 import { Gamepad2, BriefcaseBusiness, } from 'lucide-react';
 import { Computer } from "../../types/computer.class.ts";
 import './PcMap.css';
-import PcDescription from '../../components/pcDescription.tsx'
+import PcDescription from '../../components/PcDescription/pcDescription.tsx'
 import { useState } from "react";
+import Loading from "../../components/Loading/loading.tsx";
+import Error from "../../components/Error/Error.tsx";
 
 interface StylesItem {
     bg: string,
@@ -36,16 +38,13 @@ function PcMap() {
     },);
     if (computerListQuery.isPending) {
         return (
-            <div>
-                Cargando...
-            </div>);
+            <Loading/>
+        );
     }
     if (computerListQuery.isError) {
         return (
-            <div>
-                Hubo un error... <br />
-                Error: {computerListQuery.error.message}
-            </div>);
+            <Error error={computerListQuery.error.message}/>
+        );
     };
 
     return (

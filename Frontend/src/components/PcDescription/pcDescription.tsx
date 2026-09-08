@@ -1,4 +1,4 @@
-import { Computer } from "../types/computer.class.ts";
+import { Computer } from "../../types/computer.class.ts";
 import { Mouse, ArrowRight, Gamepad2, BriefcaseBusiness, Cpu, MemoryStick, Monitor, Gpu } from 'lucide-react';
 
 interface pcDescProp {

@@ -6,9 +6,10 @@ function Header() {
     const [isOpen, setIsOpen] = useState(false);
 
     const navLinks = [
-        { name: "Ejemplo", to: "/" }
+        { name: "Inicio", to: "/" },
+        { name: 'Equipos', to: '/PcMap'},
+        {name: 'Nosotros', to: '/about'}
     ];
-
     return (
         <>
             <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
@@ -36,7 +37,7 @@ function Header() {
                             <div className="hidden md:block">
                                 <Link
                                     to={"/"}
-                                    className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors"
+                                    className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 mr-2 rounded-lg text-sm transition-colors"
                                 >
                                     Reservar
                                 </Link>
@@ -55,9 +56,9 @@ function Header() {
                                 <span className="sr-only">Abrir menú principal</span>
                                 {/* Icono dinámico según el estado (renderiza el menu de hambuergesa y la cruz)*/}
                                 {isOpen ? (
-                                    <X />
+                                    <X/>
                                 ) : (
-                                    <Menu />
+                                    <Menu/>
                                 )}
                             </button>
                         </div>
