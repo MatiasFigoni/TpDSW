@@ -12,8 +12,8 @@ Content-Type: application/json
 
 {
   "maintenance": 3,
-  "category": 2,
-  "status": "0",
+  "category": 3,
+  "status": "Disponible",
   "description": "Rtx 3080ti + R1yzen 7 5700x",
   "pcNumber": 13
 }
@@ -44,3 +44,11 @@ Content-Type: application/json
 #### Eliminar computadora
 delete http://localhost:3000/api/computers/1
 
+
+###filtro En este caso, se filtra por categoria, estado y mantenimiento. Estado string: Disponible, Ocupado, Mantenimiento. Mantenimiento: num. Categoria: num
+GET http://localhost:3000/api/computers/filter?category=3&status=Disponible&maintenance=3
+
+### filtrar por categoria
+GET http://localhost:3000/api/computers/category/3
+
+  

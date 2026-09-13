@@ -22,7 +22,7 @@
             const result = await em.find(Category, {});
             res.status(200).json({ message: 'Categories found', data: result });
         }
-        catch (error) {
+        catch (error: any) {
             res.status(500).json({ message: error.message });
             }
                             }
@@ -33,7 +33,7 @@
         const ret= await em.findOneOrFail(Category,{ id:catid});
          res.status(200).json({message : 'category found ', data:ret});
         }
-        catch (error){
+        catch (error: any){
         res.status(500).json({message: error.message})
                     }
                         }
@@ -46,7 +46,7 @@
 
         res.status(201).json({message:'The Category has succesfuly been created'})
             }
-        catch(error){
+        catch(error: any){
             res.status(500).json({message: error.message})
         }  
                         }                
@@ -60,7 +60,7 @@ async function update(req: Request, res:Response) {
         await em.flush()
         res.status(200).json({message:'The Category has succefuly been updated'})
     }
-                catch(error){
+                catch(error: any){
                     res.status(500).json({message: error.message})
                 }
                 }
@@ -75,7 +75,7 @@ async function update(req: Request, res:Response) {
             res.status(200).json({message:' the Category has succesfully been deleted'})
             } 
         
-        catch(error){
+        catch(error: any){
             res.status(500).json({message: error.message})
         }
         }

@@ -100,4 +100,47 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { sanitizeComputerData, findAll, findOne, add, update, remove }
+async function filter(req: Request, res: Response) {
+  try {
+    const { category, status, maintenance } = req.query;
+    const filters: any = {};
+
+    if (category) {
+      const categoryId = Number(category);
+      if (!Number.isNaN(categoryId)) {
+        filters.category = categoryId;
+      }
+    }
+
+    if (status !== undefined) {
+      filters.status = status ;
+    }
+
+    if (maintenance) {
+      const maintenanceId = Number(maintenance);
+      if (!Number.isNaN(maintenanceId)) {
+        filters.maintenance = maintenanceId;
+      }
+    }
+
+    const computers = await em.find(Computer, filters, {
+      populate: ['category', 'maintenance'],
+    });
+
+    res.json({ message: 'Computers found', data: computers });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+async function filterByCategory(req: Request, res: Response) {
+  try {
+    const categoryId = Number.parseInt(req.params.categoryId);
+    const computers = await em.find(Computer, { category: categoryId }, { populate: ['category', 'maintenance'] });
+    res.json({ message: 'Computers found by category', data: computers });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export { sanitizeComputerData, findAll, findOne, add, update, remove, filter, filterByCategory }
