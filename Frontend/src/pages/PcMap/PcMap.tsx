@@ -7,6 +7,8 @@ import PcDescription from '../../components/PcDescription/pcDescription.tsx'
 import { useState } from "react";
 import Loading from "../../components/Loading/loading.tsx";
 import Error from "../../components/Error/Error.tsx";
+import { useCategoryId } from "../../hooks/useCategoryId.ts";
+import CategorySelect from "../../components/CategorySelect/CategorySelect.tsx";
 
 interface StylesItem {
     bg: string,
@@ -31,28 +33,43 @@ export const getStyles = (c: Computer) => {
 
 function PcMap() {
     const [selectedPc, setSelectedPc] = useState<Computer>();
-    const computerListQuery = useQuery({
-        queryKey: ['computers-map'],
-        queryFn: fetchComputers,
+    const [category,setCategory] = useState<string>('');
 
+    const { data:categoryId } = useCategoryId(category);   
+
+    const computerListQuery = useQuery({
+        queryKey: ['computers-map',categoryId],
+        queryFn: ()=>fetchComputers(categoryId),
     },);
+    
+    const handlerCategory = (description:string):void => {
+        setCategory(description);
+    }
+
     if (computerListQuery.isPending) {
         return (
             <Loading/>
         );
     }
+
     if (computerListQuery.isError) {
         return (
             <Error error={computerListQuery.error.message}/>
         );
     };
-
+    
     return (
         <section className="pt-32 pb-24 min-h-screen bg-zinc-950 overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="mb-12 text-center">
                     <h2 className="text-3xl font-medium tracking-tight text-white mb-3">Selecciona tu estación</h2>
                     <p className="text-zinc-400 text-base md:text-lg">Pasa el cursor o toca una máquina para ver sus especificaciones. Haz clic para seleccionarla.</p>
+                </div>
+                <div className="flex my-4 md:text-lg justify-center">
+                    <div className="flex md:px-16 p-2 bg-zinc-900 gap-x-2 text-zinc-400 rounded-3xl border border-zinc-800">
+                        <p className="m-2">Filtrar categoria:</p>
+                        <CategorySelect value={category} onChange={handlerCategory} />
+                    </div>
                 </div>
                 <div className="flex not-lg:flex-col gap-8 items-center ">
                     <div className="w-full lg:w-2/3 bg-zinc-900 p-6 md:p-10 rounded-3xl border border-zinc-800  relative">
