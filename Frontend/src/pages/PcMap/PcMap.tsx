@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchComputers } from "../../services/computer.services.ts";
 import { Gamepad2, BriefcaseBusiness, } from 'lucide-react';
 import { Computer } from "../../types/computer.class.ts";
 import './PcMap.css';
@@ -9,6 +7,7 @@ import Loading from "../../components/Loading/loading.tsx";
 import Error from "../../components/Error/Error.tsx";
 import { useCategoryId } from "../../hooks/useCategoryId.ts";
 import CategorySelect from "../../components/CategorySelect/CategorySelect.tsx";
+import { useComputers } from "../../hooks/useComputers.ts";
 
 interface StylesItem {
     bg: string,
@@ -36,25 +35,21 @@ function PcMap() {
     const [category,setCategory] = useState<string>('');
 
     const { data:categoryId } = useCategoryId(category);   
-
-    const computerListQuery = useQuery({
-        queryKey: ['computers-map',categoryId],
-        queryFn: ()=>fetchComputers(categoryId),
-    },);
+    const { data:computerQuery, isPending, isError, error } = useComputers(categoryId)
     
     const handlerCategory = (description:string):void => {
         setCategory(description);
     }
 
-    if (computerListQuery.isPending) {
+    if (isPending) {
         return (
             <Loading/>
         );
     }
 
-    if (computerListQuery.isError) {
+    if (isError) {
         return (
-            <Error error={computerListQuery.error.message}/>
+            <Error error={error.message}/>
         );
     };
     
@@ -79,7 +74,7 @@ function PcMap() {
                             <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-zinc-800 border border-zinc-700"></div> Ocupado</div>
                         </div>
                         <div className="flex justify-center grid-computers">
-                            {computerListQuery.data.map((c: Computer) => {
+                            {computerQuery.map((c: Computer) => {
                                 const styles: StylesItem = getStyles(c);
                                 const isSelected = selectedPc?.id === c.id;
                                 return (
