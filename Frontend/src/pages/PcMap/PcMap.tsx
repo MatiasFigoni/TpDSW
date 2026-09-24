@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchComputers } from "../../services/computerServices.ts";
+import { fetchComputers } from "../../services/computer.services.ts";
 import { Gamepad2, BriefcaseBusiness, } from 'lucide-react';
 import { Computer } from "../../types/computer.class.ts";
 import './PcMap.css';

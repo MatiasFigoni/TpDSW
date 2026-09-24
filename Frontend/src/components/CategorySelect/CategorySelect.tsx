@@ -1,4 +1,4 @@
-import { useCategory } from "../../hooks/useCategory.ts";
+import { useCategory } from "../../hooks/useCategories.ts";
 interface categorySelectProps{
     value:string,
     onChange: ( description:string )=> void
