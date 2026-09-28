@@ -31,6 +31,14 @@ __decorate([
     Property(),
     __metadata("design:type", String)
 ], Person.prototype, "dni", void 0);
+__decorate([
+    Property(),
+    __metadata("design:type", String)
+], Person.prototype, "username", void 0);
+__decorate([
+    Property(),
+    __metadata("design:type", String)
+], Person.prototype, "password", void 0);
 Person = __decorate([
     Entity({ abstract: true })
 ], Person);

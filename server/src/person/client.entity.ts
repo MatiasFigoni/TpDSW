@@ -6,4 +6,9 @@ import { Person } from './person.entity.js';
 export class Client extends Person {
   @Property()
   status: boolean = true;
+
+  @Property({ persist:false })
+  get role():string{
+    return 'client';
+  }
 }

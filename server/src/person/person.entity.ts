@@ -17,4 +17,10 @@ export abstract class Person extends BaseEntity {
 
   @Property()
   dni!: string;
+
+  @Property()
+  username!: string;
+
+  @Property()
+  password!: string;
 }

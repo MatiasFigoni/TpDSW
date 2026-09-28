@@ -14,11 +14,19 @@ export let Client = class Client extends Person {
         super(...arguments);
         this.status = true;
     }
+    get role() {
+        return 'client';
+    }
 };
 __decorate([
     Property(),
     __metadata("design:type", Boolean)
 ], Client.prototype, "status", void 0);
+__decorate([
+    Property({ persist: false }),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [])
+], Client.prototype, "role", null);
 Client = __decorate([
     Entity()
 ], Client);

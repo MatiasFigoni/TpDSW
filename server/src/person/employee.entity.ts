@@ -4,10 +4,10 @@ import { Person } from './person.entity.js';
 
 @Entity()
 export class Employee extends Person{
-  @Property()
-  username!: string;
 
-  @Property()
-  password!: string;
+  @Property({ persist:false })
+  get role():string{
+    return 'employee';
+  }
 
 }

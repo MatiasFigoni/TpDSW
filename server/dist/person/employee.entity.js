@@ -10,15 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Entity, Property } from '@mikro-orm/core';
 import { Person } from './person.entity.js';
 export let Employee = class Employee extends Person {
+    get role() {
+        return 'employee';
+    }
 };
 __decorate([
-    Property(),
-    __metadata("design:type", String)
-], Employee.prototype, "username", void 0);
-__decorate([
-    Property(),
-    __metadata("design:type", String)
-], Employee.prototype, "password", void 0);
+    Property({ persist: false }),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [])
+], Employee.prototype, "role", null);
 Employee = __decorate([
     Entity()
 ], Employee);
