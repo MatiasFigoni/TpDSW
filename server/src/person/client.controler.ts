@@ -14,7 +14,9 @@ function sanitizeClientData(req: Request, res: Response, next: NextFunction){
     email: req.body.email,
     dni: req.body.dni,
 
-    status: req.body.status
+    status: req.body.status,
+    username: req.body.username, 
+    password: req.body.password
   }
     
   

@@ -15,7 +15,9 @@ Content-Type: application/json
   "phoneNumber": 3412243123,
   "email": "wachincito@gmail.com",
   "dni": 1234,
-  "status": false
+  "status": false,
+  "username": "wachinsitofandelmegaman123",
+  "password": "123"
 }
 
 #     name: req.body.name,
