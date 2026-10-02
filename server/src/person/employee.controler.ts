@@ -87,4 +87,22 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { sanitizeEmployeeData, findAll, findOne, add, update, remove }
+async function validateEmailAndPassword (req:Request, res:Response) {
+  try {
+ const email= (req.body.email) as string
+  const password =  (req.body.password) as string
+   const user = await em.findOne(Employee, {email, password} ) 
+   
+   if (user) {
+    res.status(200).json({message: 'welcome back partner'})
+   }
+   else{
+    res.status(404).json({message: 'there was not partner found with the credentials that were inputeds'})
+   }
+
+    }
+    catch (error:any) {res.status(500).json({message: 'Internal error we are sorry'})}
+}
+
+
+export { sanitizeEmployeeData, findAll, findOne, add, update, remove, validateEmailAndPassword }

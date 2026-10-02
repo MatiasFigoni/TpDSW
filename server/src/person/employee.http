@@ -43,3 +43,11 @@ Content-Type: application/json
 #### Eliminar 
 delete http://localhost:3000/api/employees/1
 
+###Tryna log to work
+POST  http://localhost:3000/api/employees/login
+Content-Type: application/json
+
+{
+  "email": "megaman123@gmail.com",
+  "password": "12345"
+}
