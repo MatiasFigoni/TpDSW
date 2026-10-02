@@ -2,6 +2,8 @@ import { NextFunction, Request, Response} from 'express'
 import { orm } from '../shared/db/orm.js'
 import { Client } from './client.entity.js'
 
+
+
 // import {t} from '@mikro-orm/core'
 
 const em = orm.em
@@ -88,5 +90,22 @@ async function remove(req: Request, res: Response) {
     res.status(500).json({ message: error.message })
   }
 }
+async function validateEmailAndPassword (req:Request, res:Response) {
+  try {
+ const email= (req.body.email) as string
+  const password =  (req.body.password) as string
+   const user = await em.findOne(Client, {email, password} ) 
+   
+   if (user) {
+    res.status(200).json({message: 'welcome back'})
+   }
+   else{
+    res.status(404).json({message: 'there was not user found with the credentials that were inputeds'})
+   }
 
-export { sanitizeClientData, findAll, findOne, add, update, remove }
+    }
+    catch (error:any) {res.status(500).json({message: 'Internal error we are sorry'})}
+}
+
+
+export { sanitizeClientData, findAll, findOne, add, update, remove, validateEmailAndPassword }

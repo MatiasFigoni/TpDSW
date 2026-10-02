@@ -43,3 +43,12 @@ Content-Type: application/json
 #### Eliminar 
 delete http://localhost:3000/api/clients/1
 
+
+### tryna logIn
+POST http://localhost:3000/api/clients/login
+Content-Type: application/json
+
+{
+  "email": "wachincito@gmail.com",
+  "password": "123"
+}
