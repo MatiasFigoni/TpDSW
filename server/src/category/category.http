@@ -1,0 +1,27 @@
+### get all
+GET http://localhost:3000/api/categories
+
+
+#### get one
+GET http://localhost:3000/api/categories/2 
+
+### Create one
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+"description": "Gaymer",
+"hourly_price": 7500
+}
+### Update One
+PUT http://localhost:3000/api/categories/2
+Content-Type: application/json
+
+{
+"description": "Ofimatica",
+"hourly_price": 6500
+}
+
+#### Delete One
+DELETE http://localhost:3000/api/categories/1
+

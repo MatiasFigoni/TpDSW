@@ -7,12 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property } from '@mikro-orm/core';
+import { Entity, Property, OneToMany, Collection, Cascade } from '@mikro-orm/core';
 import { Person } from './person.entity.js';
+import { Turn } from '../services/turn.entity.js';
 export let Client = class Client extends Person {
     constructor() {
         super(...arguments);
         this.status = true;
+        this.turns = new Collection(this);
     }
     get role() {
         return 'client';
@@ -27,6 +29,10 @@ __decorate([
     __metadata("design:type", String),
     __metadata("design:paramtypes", [])
 ], Client.prototype, "role", null);
+__decorate([
+    OneToMany(() => Turn, (turn) => turn.client, { cascade: [Cascade.ALL] }),
+    __metadata("design:type", Object)
+], Client.prototype, "turns", void 0);
 Client = __decorate([
     Entity()
 ], Client);

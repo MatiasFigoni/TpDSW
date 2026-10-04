@@ -25,6 +25,9 @@ async function findAll(req, res) {
 async function findOne(req, res) {
     try {
         const catid = +req.params.id;
+        if (Number.isNaN(catid)) {
+            return res.status(400).json({ message: 'Invalid ID format.' });
+        }
         const ret = await em.findOneOrFail(Category, { id: catid });
         res.status(200).json({ message: 'category found ', data: ret });
     }
@@ -34,9 +37,13 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     try {
-        em.create(Category, req.body.sanitizedInput);
+        const { description, hourly_price } = req.body.sanitizedInput || {};
+        if (!description || hourly_price === undefined) {
+            return res.status(400).json({ message: 'Missing required fields: description and hourly_price are required.' });
+        }
+        const category = em.create(Category, req.body.sanitizedInput);
         await em.flush();
-        res.status(201).json({ message: 'The Category has succesfuly been created' });
+        res.status(201).json({ message: 'The Category has succesfuly been created', data: category });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
@@ -44,12 +51,20 @@ async function add(req, res) {
 }
 async function update(req, res) {
     try {
-        const info = req.body;
-        const idToSearch = +req.params.id;
+        const idToSearch = Number.parseInt(req.params.id);
+        if (Number.isNaN(idToSearch)) {
+            return res.status(400).json({ message: 'Invalid ID format.' });
+        }
         const categoryFound = await em.findOneOrFail(Category, { id: idToSearch });
+        const inputData = req.body.sanitizedInput;
+        if (!inputData || Object.keys(inputData).length === 0) {
+            return res.status(400).json({
+                message: 'No valid fields provided for update.'
+            });
+        }
         em.assign(categoryFound, req.body.sanitizedInput);
         await em.flush();
-        res.status(200).json({ message: 'The Category has succefuly been updated' });
+        res.status(200).json({ message: 'The Category has succefuly been updated', data: categoryFound });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
@@ -58,6 +73,9 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         const idOfCategoryToDelete = +req.params.id;
+        if (Number.isNaN(idOfCategoryToDelete)) {
+            return res.status(400).json({ message: 'Invalid ID format.' });
+        }
         const catToDelete = await em.findOneOrFail(Category, { id: idOfCategoryToDelete });
         em.remove(catToDelete);
         await em.flush();

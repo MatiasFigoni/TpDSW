@@ -17,6 +17,10 @@ export let Category = class Category extends BaseEntity {
     }
 };
 __decorate([
+    Property({ nullable: false, unique: true }),
+    __metadata("design:type", String)
+], Category.prototype, "name", void 0);
+__decorate([
     Property({ nullable: false }),
     __metadata("design:type", String)
 ], Category.prototype, "description", void 0);

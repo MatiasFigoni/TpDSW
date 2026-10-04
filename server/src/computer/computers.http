@@ -3,7 +3,7 @@ GET http://localhost:3000/api/computers
 
 
 #### obtener una computadora
-GET http://localhost:3000/api/computers/1
+GET http://localhost:3000/api/computers/4
 
   # "maintenance": 0,
 ### Cargar nueva computadora
@@ -12,10 +12,10 @@ Content-Type: application/json
 
 {
   "maintenance": 3,
-  "category": 3,
+  "category": 9,
   "status": "Disponible",
-  "description": "Rtx 3080ti + R1yzen 7 5700x",
-  "pcNumber": 13
+  "description": " ",
+  "pcNumber": 100
 }
 
 ###modificar computadora

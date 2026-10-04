@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Entity, Property, ManyToOne } from '@mikro-orm/core';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
-import { Turn } from './turn.js';
+import { Turn } from './turn.entity.js';
 export let Pay = class Pay extends BaseEntity {
     constructor() {
         super(...arguments);
@@ -43,4 +43,4 @@ __decorate([
 Pay = __decorate([
     Entity()
 ], Pay);
-//# sourceMappingURL=pay.js.map
+//# sourceMappingURL=pay.entity.js.map

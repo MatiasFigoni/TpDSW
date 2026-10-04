@@ -3,18 +3,18 @@ GET http://localhost:3000/api/clients
 
 
 #### obtener una 
-GET http://localhost:3000/api/clients/2
+GET http://localhost:3000/api/clients/wachinsitomegamanero
 
 ### Cargar nueva 
 POST http://localhost:3000/api/clients
 Content-Type: application/json
 
 {
-  "name": "Wachin",
-  "lastName":"Mega",
-  "phoneNumber": 3412243123,
+  "name": "",
+  "lastName": "",
+  "phoneNumber":"" ,
   "email": "wachincito@gmail.com",
-  "dni": 1234,
+  "dni": "",
   "status": false,
   "username": "wachinsitofandelmegaman123",
   "password": "123"
@@ -29,7 +29,7 @@ Content-Type: application/json
 #     status: req.body.status
 
 ###modificar 
-put http://localhost:3000/api/clients/2
+PUT http://localhost:3000/api/clients/2
 Content-Type: application/json
 
   {
@@ -41,7 +41,7 @@ Content-Type: application/json
   }
 
 #### Eliminar 
-delete http://localhost:3000/api/clients/1
+DELETE http://localhost:3000/api/clients/1
 
 
 ### tryna logIn

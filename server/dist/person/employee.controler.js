@@ -1,5 +1,6 @@
 import { orm } from '../shared/db/orm.js';
 import { Employee } from './employee.entity.js';
+// import jwt from 'jsonwebtoken'
 // import {t} from '@mikro-orm/core'
 const em = orm.em;
 function sanitizeEmployeeData(req, res, next) {
@@ -31,6 +32,9 @@ async function findAll(req, res) {
 async function findOne(req, res) {
     try {
         const id = Number.parseInt(req.params.id);
+        if (Number.isNaN(id)) {
+            return res.status(400).json({ message: 'Invalid ID format.' });
+        }
         const employee = await em.findOneOrFail(Employee, { id });
         res.status(200).json({ message: 'found employee', data: employee });
     }
@@ -40,6 +44,18 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     try {
+        const { name, email, password } = req.body.sanitizedInput || {};
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                message: 'Missing required fields: name, email, and password are required.'
+            });
+        }
+        const existingEmployee = await em.findOne(Employee, { email });
+        if (existingEmployee) {
+            return res.status(400).json({
+                message: 'We are afraid there is already a member with that email.'
+            });
+        }
         const employee = em.create(Employee, req.body.sanitizedInput);
         await em.flush();
         res.status(201).json({ message: 'New Employee created', data: employee });
@@ -51,12 +67,19 @@ async function add(req, res) {
 async function update(req, res) {
     try {
         const id = Number.parseInt(req.params.id);
+        if (Number.isNaN(id)) {
+            return res.status(400).json({ message: 'Invalid ID format.' });
+        }
         const employeeToUpdate = await em.findOneOrFail(Employee, { id });
+        const inputData = req.body.sanitizedInput;
+        if (!inputData || Object.keys(inputData).length === 0) {
+            return res.status(400).json({
+                message: 'No valid fields provided for update.'
+            });
+        }
         em.assign(employeeToUpdate, req.body.sanitizedInput);
         await em.flush();
-        res
-            .status(200)
-            .json({ message: 'Employee updated', data: employeeToUpdate });
+        res.status(200).json({ message: 'Employee updated', data: employeeToUpdate });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
@@ -65,6 +88,9 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         const id = Number.parseInt(req.params.id);
+        if (Number.isNaN(id)) {
+            return res.status(400).json({ message: 'Invalid ID format.' });
+        }
         const employee = em.getReference(Employee, id);
         await em.remove(employee);
         await em.flush();
@@ -74,5 +100,36 @@ async function remove(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-export { sanitizeEmployeeData, findAll, findOne, add, update, remove };
+async function validateEmailAndPassword(req, res) {
+    try {
+        const email = (req.body.email);
+        const password = (req.body.password);
+        const user = await em.findOne(Employee, { email, password });
+        if (user) {
+            const payload = {
+                sub: user.id,
+                email: user.email,
+                role: user.role
+            };
+            // const secret = process.env.JWT_SECRET  || 'SuperTemporal_EmployeeWachin'
+            // const token = jwt.sign(payload, secret, {expiresIn: '2h'})
+            return res.status(200).json({
+                message: 'Welcome Back Partner',
+                // token: token,
+                data: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                }
+            });
+        }
+        else {
+            return res.status(404).json({ message: 'there was not partner found with the credentials that were inputeds' });
+        }
+    }
+    catch (error) {
+        return res.status(500).json({ message: 'Internal error we are sorry' });
+    }
+}
+export { sanitizeEmployeeData, findAll, findOne, add, update, remove, validateEmailAndPassword };
 //# sourceMappingURL=employee.controler.js.map

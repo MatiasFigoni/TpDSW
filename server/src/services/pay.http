@@ -1,0 +1,44 @@
+### Crear un nuevo pago simulado
+POST http://localhost:3000/api/payments
+Content-Type: application/json
+
+{
+  "idTurn": 1,
+  "amount": 3500,
+  "method": "tarjeta",
+  "status": "PENDIENTE"
+}
+
+### 1. Iniciar un pago en estado PENDIENTE para el Turno #1
+# @name nuevoPago
+POST http://localhost:3000/api/pays
+Content-Type: application/json
+
+{
+  "idTurn": 1,
+  "amount": 3500,
+  "method": "tarjeta",
+  "status": "PENDIENTE"
+}
+
+### 2. Simular cobro exitoso (PAGADO) -> Modifica el turno a INICIADO
+PATCH http://localhost:3000/api/pays/1/status
+Content-Type: application/json
+
+{
+  "newStatus": "PAGADO"
+}
+
+### 3. Verificar en Turn que su status cambió a INICIADO
+GET http://localhost:3000/api/turns/1
+
+### 4. Simular reembolso (REEMBOLSADO) -> Modifica el turno a CANCELADO
+PATCH http://localhost:3000/api/pays/1/status
+Content-Type: application/json
+
+{
+  "newStatus": "REEMBOLSADO"
+}
+
+### 5. Verificar en Turn que su status ahora es CANCELADO
+GET http://localhost:3000/api/turns/1

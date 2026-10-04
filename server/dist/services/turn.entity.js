@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Entity, Property, OneToMany, Collection, Cascade, ManyToOne } from '@mikro-orm/core';
-import { Pay } from '../services/pay.js';
+import { Pay } from '../services/pay.entity.js';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 import { Client } from '../person/client.entity.js';
 import { Computer } from '../computer/computer.entity.js';
@@ -57,4 +57,4 @@ __decorate([
 Turn = __decorate([
     Entity()
 ], Turn);
-//# sourceMappingURL=turn.js.map
+//# sourceMappingURL=turn.entity.js.map

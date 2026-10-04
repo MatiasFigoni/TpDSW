@@ -3,7 +3,7 @@ GET http://localhost:3000/api/employees
 
 
 #### obtener una 
-GET http://localhost:3000/api/employees/2
+GET http://localhost:3000/api/employees/MegamansitoWachin
 
 ### Cargar nueva 
 POST http://localhost:3000/api/employees
@@ -29,19 +29,26 @@ Content-Type: application/json
 #     password: req.body.password
 
 ###modificar 
-put http://localhost:3000/api/employees/2
+PUT http://localhost:3000/api/employees/2
 Content-Type: application/json
 
-  {
-    "category": "PcGamer",
-    "description": "Rtx 308011ti + Ryzen 7 5700x",
-    "price": 10200,
-    "pcNumber": 3,
-    "status": true
-  }
+ 
+{
+  "name": "Wachincito",
+  "lastName":"pequenin",
+  "phoneNumber": "3471339081",
+  "email": "wachincitopequenito@gmail.com",
+  "dni": "1234", 
+  "username": "wachincitopeque123",
+  "password": "wachin"
+}
+
+
+#/*los toma como string a dni y number por eso los "" :  { "message": "Trying to set Employee.dni of type 'string' to '1234' of type 'number'" } */
+
 
 #### Eliminar 
-delete http://localhost:3000/api/employees/1
+DELETE http://localhost:3000/api/employees/1
 
 ###Tryna log to work
 POST  http://localhost:3000/api/employees/login

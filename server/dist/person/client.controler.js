@@ -9,7 +9,9 @@ function sanitizeClientData(req, res, next) {
         phoneNumber: req.body.phoneNumber,
         email: req.body.email,
         dni: req.body.dni,
-        status: req.body.status
+        status: req.body.status,
+        username: req.body.username,
+        password: req.body.password
     };
     Object.keys(req.body.sanitizedInput).forEach(key => {
         if (req.body.sanitizedInput[key] === undefined) {
@@ -73,5 +75,21 @@ async function remove(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-export { sanitizeClientData, findAll, findOne, add, update, remove };
+async function validateEmailAndPassword(req, res) {
+    try {
+        const email = (req.body.email);
+        const password = (req.body.password);
+        const user = await em.findOne(Client, { email, password });
+        if (user) {
+            res.status(200).json({ message: 'welcome back' });
+        }
+        else {
+            res.status(404).json({ message: 'there was not user found with the credentials that were inputeds' });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Internal error we are sorry' });
+    }
+}
+export { sanitizeClientData, findAll, findOne, add, update, remove, validateEmailAndPassword };
 //# sourceMappingURL=client.controler.js.map
