@@ -5,7 +5,8 @@ import PcMap from "./pages/PcMap/PcMap.tsx";
 import About from "./pages/About/About.tsx";
 import PcAdmin from "./pages/PcAdmin/PcAdmin.tsx";
 import AdminLayout from "./layouts/adminLayout.tsx";
-import PcDescriptionAdmin from "./components/PcDescriptionAdmin/PcDescriptionAdmin.tsx";
+import PcManagement from "./components/PcManagement/PcManagement.tsx";
+import PcMaintenance from "./components/forms/PcMaintenance.tsx";
 
 function App() {
 
@@ -20,7 +21,9 @@ function App() {
           </Route>
           <Route path="/admin" element={<AdminLayout/>}>
             <Route path="/admin/PcAdmin" element={<PcAdmin/>}/>
-            <Route path="/admin/PcAdmin/:id" element={<PcDescriptionAdmin/>}/>
+            <Route path="/admin/PcAdmin/new" element={<PcManagement/>}/>
+            <Route path="/admin/PcAdmin/:id" element={<PcManagement/>}/>
+            <Route path="/admin/PcAdmin/:id/maintenance" element={<PcMaintenance/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -14,7 +14,8 @@ function PcItemTableAdmin({ computer }: PcItemTableAdminProp) {
             <td>{computer.category.description}</td>
             <td>{computer.status}</td>
             <td>
-                <Link to={computer.pcNumber.toString()} className="py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors">Editar</Link>
+                <Link to={computer.pcNumber.toString()} className="mx-2 py-1.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg text-sm transition-colors">Editar</Link>
+                <Link to={`${computer.pcNumber.toString()}/maintenance`} className="mx-2 py-1.5 px-4 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg text-sm transition-colors">Mantenimiento</Link>
             </td>
         </tr>
     );

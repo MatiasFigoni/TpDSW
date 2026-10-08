@@ -4,11 +4,11 @@ export class Computer {
     id: string;
     category: Category;
     description: string;
-    maintenance:Maintenance;
+    maintenance?:Maintenance;
     pcNumber: number;
     status: string;
 
-    constructor(id: string, category: Category, description: string, pcNumber: number, status: string, maintenance:Maintenance,) {
+    constructor(id: string, category: Category, description: string, pcNumber: number, status: string, maintenance?:Maintenance,) {
         this.id = id;
         this.category = category;
         this.description = description;
@@ -16,4 +16,11 @@ export class Computer {
         this.pcNumber = pcNumber;
         this.status = status;
     }
+}
+
+export interface CreateComputer{
+    category: number;
+    description: string;
+    pcNumber: number;
+    status: string;
 }

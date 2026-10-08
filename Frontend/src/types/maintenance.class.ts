@@ -1,5 +1,5 @@
 export class Maintenance {
-    id: number;
+    id?: number;
     description: string;
     start_date: Date;
     end_date: Date;

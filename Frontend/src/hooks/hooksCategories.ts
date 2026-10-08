@@ -12,3 +12,10 @@ export function useCategoryId(catDescription: string) {
         enabled: Boolean(catDescription),
     });
 }
+
+export function useCategory() {
+    return useQuery({
+        queryKey: ["category"],
+        queryFn: () => fetchCategory(),
+    });
+}

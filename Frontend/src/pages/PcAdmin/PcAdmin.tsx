@@ -4,9 +4,10 @@ import "./PcAdmin.css";
 import Loading from "../../components/Loading/loading.tsx";
 import Error from "../../components/Error/Error.tsx";
 import { useState } from "react";
-import CategorySelect from "../../components/CategorySelect/CategorySelect.tsx";
-import { useCategoryId } from "../../hooks/useCategoryId.ts";
-import { useComputers } from "../../hooks/useComputers.ts";
+import CategorySelect from "../../components/CategorySelect/CategorySelect.tsx";;
+import { useComputers } from "../../hooks/hooksComputers.ts";
+import { useCategoryId } from "../../hooks/hooksCategories.ts";
+import { Link } from "react-router";
 // import PcDescriptionAdmin from "../../components/PcDescriptionAdmin/PcDescriptionAdmin.tsx";
 
 function PcAdmin() {
@@ -45,10 +46,16 @@ function PcAdmin() {
         <section className="sm:m-16 m-4">
             <h1 className="text-3xl text-white font-medium">Panel administrador</h1>
             <div className="flex my-4 md:text-lg justify-center">
-                    <div className="flex md:px-16 p-2 bg-zinc-900 gap-x-2 text-zinc-400 rounded-3xl border border-zinc-800">
+                    <div className="md:flex md:px-16 p-2 bg-zinc-900 gap-x-2 text-zinc-400 rounded-3xl border border-zinc-800">
+                        <div className="flex">
                         <p className="m-2">Filtrar categoria:</p>
                         <CategorySelect value={category} onChange={handlerCategory} />
+                        </div>
+                        <div className="flex items-center not-md:justify-center">
+                            <Link to={"new"} className=" mx-1 py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-50">Agregar computadora</Link>
+                        </div>
                     </div>
+                    
                 </div>
             <div className="overflow-x-auto">
                 <table className="bg-zinc-800 table-auto w-full text-white">

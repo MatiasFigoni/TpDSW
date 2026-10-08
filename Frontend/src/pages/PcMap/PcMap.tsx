@@ -1,13 +1,14 @@
-import { Gamepad2, BriefcaseBusiness, } from 'lucide-react';
+import { Gamepad2, BriefcaseBusiness, Mouse, ArrowRight, } from 'lucide-react';
 import { Computer } from "../../types/computer.class.ts";
 import './PcMap.css';
-import PcDescription from '../../components/PcDescription/pcDescription.tsx'
+import PcDescription from '../../components/PcItemDescription/PcItemDescription.tsx'
 import { useState } from "react";
 import Loading from "../../components/Loading/loading.tsx";
 import Error from "../../components/Error/Error.tsx";
-import { useCategoryId } from "../../hooks/useCategoryId.ts";
+
 import CategorySelect from "../../components/CategorySelect/CategorySelect.tsx";
-import { useComputers } from "../../hooks/useComputers.ts";
+import { useComputers } from "../../hooks/hooksComputers.ts";
+import { useCategoryId } from '../../hooks/hooksCategories.ts';
 
 interface StylesItem {
     bg: string,
@@ -32,27 +33,27 @@ export const getStyles = (c: Computer) => {
 
 function PcMap() {
     const [selectedPc, setSelectedPc] = useState<Computer>();
-    const [category,setCategory] = useState<string>('');
+    const [category, setCategory] = useState<string>('');
 
-    const { data:categoryId } = useCategoryId(category);   
-    const { data:computerQuery, isPending, isError, error } = useComputers(categoryId)
-    
-    const handlerCategory = (description:string):void => {
+    const { data: categoryId } = useCategoryId(category);
+    const { data: computerQuery, isPending, isError, error } = useComputers(categoryId)
+
+    const handlerCategory = (description: string): void => {
         setCategory(description);
     }
 
     if (isPending) {
         return (
-            <Loading/>
+            <Loading />
         );
     }
 
     if (isError) {
         return (
-            <Error error={error.message}/>
+            <Error error={error.message} />
         );
     };
-    
+
     return (
         <section className="pt-32 pb-24 min-h-screen bg-zinc-950 overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="max-w-7xl mx-auto px-6">
@@ -115,10 +116,26 @@ function PcMap() {
                             Entrada / Café
                         </div>
                     </div>
-                    <PcDescription selectedPc={selectedPc} />
+                    <div className="w-full lg:w-1/3 bg-zinc-900 p-6 rounded-3xl border border-zinc-800  top-28 transition-all duration-300">
+                        <h3 className="text-lg font-medium text-white mb-6 border-b border-zinc-800 pb-4">Detalles del Equipo</h3>
+                        {!selectedPc ? (
+                            <div className="min-h-60 flex flex-col justify-center items-center text-center">
+                                <Mouse className="w-12 h-12 text-zinc-700 mb-4 animate-pulse" />
+                                <p className="text-zinc-500 text-sm px-4">Selecciona una máquina en el mapa para ver sus características y proceder con la reserva.</p>
+                            </div>
+                        ) : (
+                            <>
+                                <PcDescription selectedPc={selectedPc} />
+                                <div className="pt-6 border-t border-zinc-800 mt-auto">
+                                    <button className="w-full bg-blue-600 text-white font-medium py-3.5 rounded-xl hover:bg-blue-700 transition-colors flex justify-center items-center gap-2 shadow-lg shadow-blue-600/20">
+                                        <span>Reservar este Equipo</span>
+                                        <ArrowRight className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
-
-
             </div>
         </section >
     );
