@@ -46,7 +46,8 @@ async function findOne(req: Request, res: Response){
 }
 
 async function add(req: Request, res: Response) {
-  try {
+  try {     
+
     const maintenance = em.create(Maintenance, req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ message: 'Maintenance record created', data: maintenance })

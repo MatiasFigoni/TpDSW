@@ -126,8 +126,8 @@ async function remove(req: Request, res: Response) {
 
 async function validateEmailAndPassword (req:Request, res:Response) {
   try {
- const email= (req.body.email) as string
-  const password =  (req.body.password) as string
+ const email= (req.body.sanitizedLogin.email) as string
+  const password =  (req.body.sanitizedLogin.password) as string
    const user = await em.findOne(Employee, {email, password} ) 
    
    if (user) {
@@ -144,7 +144,9 @@ async function validateEmailAndPassword (req:Request, res:Response) {
       data : {
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        isAdmin: true
+
       }
      });
     }

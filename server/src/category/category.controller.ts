@@ -6,6 +6,7 @@
 
     function sanitizeCategoryData(req: Request, res:Response, next: NextFunction) {
     req.body.sanitizedInput = {
+        name: req.body.name,
         description: req.body.description,
         hourly_price: req.body.hourly_price         
     };
@@ -48,7 +49,12 @@
     if (!description || hourly_price === undefined) {
       return res.status(400).json({ message: 'Missing required fields: description and hourly_price are required.' });
     }
-
+            const NameToValidate= req.body.sanitizedInput.name
+            const ExistingName= await em.findOne(Category,{name:NameToValidate });
+        
+            if (ExistingName) {
+              return res.status(400).json({message:'that Name is already picked up chief, please use another one'})
+            }     
         const category = em.create(Category, req.body.sanitizedInput);
             await em.flush();
 

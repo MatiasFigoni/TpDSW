@@ -66,6 +66,16 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
   try {
+
+
+      const NumberToValidate= req.body.sanitizedInput.pcNumber
+      const ExistingpcNumber= await em.findOne(Computer,{pcNumber:NumberToValidate });
+        
+        if (ExistingpcNumber) {
+          return res.status(400).json({message:'that Number is already picked  , please select another one'})
+                           }     
+
+    
     const computer = em.create(Computer, req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ message: 'Computer created', data: computer })

@@ -31,7 +31,7 @@ Content-Type: application/json
 ###modificar 
 PUT http://localhost:3000/api/clients/2
 Content-Type: application/json
-
+x-role: admin
   {
     "category": "PcGamer",
     "description": "Rtx 308011ti + Ryzen 7 5700x",

@@ -9,19 +9,20 @@ GET http://localhost:3000/api/computers/4
 ### Cargar nueva computadora
 POST http://localhost:3000/api/computers
 Content-Type: application/json
+x-role: admin
 
 {
-  "maintenance": 3,
-  "category": 9,
-  "status": "Disponible",
-  "description": " ",
-  "pcNumber": 100
+  "maintenance": 1,
+  "category": 1,
+  "status": "Disponiblee",
+  "description": "art ",
+  "pcNumber": 1020
 }
 
-###modificar computadora
-put http://localhost:3000/api/computers/2
+### modificar computadora
+PUT http://localhost:3000/api/computers/2
 Content-Type: application/json
-
+x-role:   admin
   {
     "category": "PcGamer",
     "description": "Rtx 308011ti + Ryzen 7 5700x",
@@ -42,7 +43,7 @@ Content-Type: application/json
       "status": false
   }
 #### Eliminar computadora
-delete http://localhost:3000/api/computers/1
+DELETE http://localhost:3000/api/computers/1
 
 
 ###filtro En este caso, se filtra por categoria, estado y mantenimiento. Estado string: Disponible, Ocupado, Mantenimiento. Mantenimiento: num. Categoria: num

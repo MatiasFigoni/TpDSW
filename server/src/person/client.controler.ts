@@ -57,13 +57,22 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
   try {
+    const EmailToValidate= req.body.sanitizedInput.email
+    const ExistingUser= await em.findOne(Client,{email:EmailToValidate });
+
+    if (ExistingUser) {
+      return res.status(400).json({message:'Email is already registered, please use another one'})
+    }        
     const client = em.create(Client, req.body.sanitizedInput)
     await em.flush()
+  
     res.status(201).json({ message: 'New Client created', data: client })
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }
 }
+ 
+
 
 async function update(req: Request, res: Response) {
   try {
@@ -92,14 +101,21 @@ async function remove(req: Request, res: Response) {
 }
 async function validateEmailAndPassword (req:Request, res:Response) {
   try {
- const email= (req.body.email) as string
-  const password =  (req.body.password) as string
+ const email= (req.body.sanitizedLogin.email) as string
+  const password =  (req.body.sanitizedLogin.password) as string
    const user = await em.findOne(Client, {email, password} ) 
    
-   if (user) {
-    res.status(200).json({message: 'welcome back'})
-   }
-   else{
+ if (user) {
+      res.status(200).json({
+        message: 'Welcome back',
+        data: {
+          id: user.id,
+          name: user.name, 
+          email: user.email,
+          isAdmin: false 
+        }
+      });
+    } else  {
     res.status(404).json({message: 'there was not user found with the credentials that were inputeds'})
    }
 

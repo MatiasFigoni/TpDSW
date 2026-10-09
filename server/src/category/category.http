@@ -3,20 +3,21 @@ GET http://localhost:3000/api/categories
 
 
 #### get one
-GET http://localhost:3000/api/categories/2 
+GET http://localhost:3000/api/categories/ASD 
 
 ### Create one
 POST http://localhost:3000/api/categories
 Content-Type: application/json
-
+x-role: admin
 {
+    "name": "LaPoderosa",
 "description": "Gaymer",
 "hourly_price": 7500
 }
 ### Update One
 PUT http://localhost:3000/api/categories/2
 Content-Type: application/json
-
+x-role: admin
 {
 "description": "Ofimatica",
 "hourly_price": 6500

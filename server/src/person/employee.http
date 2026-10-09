@@ -8,15 +8,15 @@ GET http://localhost:3000/api/employees/MegamansitoWachin
 ### Cargar nueva 
 POST http://localhost:3000/api/employees
 Content-Type: application/json
-
+x-role: admin
 {
   "name": "Wachin",
   "lastName":"Super",
   "phoneNumber": 3412243123,
-  "email": "wachincito@gmail.com",
+  "email": "wapi@gmail.com",
   "dni": 1234,
   "username": "wachincito123",
-  "password": "wachin"
+  "password": "wapi123"
 }
 
 #     name: req.body.name,
@@ -31,7 +31,7 @@ Content-Type: application/json
 ###modificar 
 PUT http://localhost:3000/api/employees/2
 Content-Type: application/json
-
+x-role: admin
  
 {
   "name": "Wachincito",
@@ -55,6 +55,6 @@ POST  http://localhost:3000/api/employees/login
 Content-Type: application/json
 
 {
-  "email": "megaman123@gmail.com",
-  "password": "12345"
+  "email": "wapi@gmail.com",
+  "password": "wapi123"
 }
