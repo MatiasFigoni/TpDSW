@@ -1,7 +1,7 @@
 import { useCategory } from "../../hooks/hooksCategories.ts";
 interface categorySelectProps {
     value: string,
-    onChange: (description: string) => void
+    onChange: (name: string) => void
 }
 
 function CategorySelect({ value, onChange }: categorySelectProps) {
@@ -24,7 +24,7 @@ function CategorySelect({ value, onChange }: categorySelectProps) {
         <select className="bg-zinc-900 hover:bg-zinc-800 rounded-3xl p-1" value={value} onChange={(e) => onChange(e.target.value)}>
             <option value="">-Opcion-</option>
             {categories.map((c) => (
-                <option key={c.id} value={c.description}>{c.description}</option>
+                <option key={c.id} value={c.name}>{c.name}</option>
             ))}
         </select>
     )

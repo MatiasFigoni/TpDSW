@@ -19,7 +19,7 @@ function PcManagement() {
     const deleteMutation = useComputerDelete();
 
     const handleCreate = (values:FormComputer) =>{
-        const category = categories?.find((item) => item.description === values.PcCategory);
+        const category = categories?.find((item) => item.name === values.PcCategory);
         if (!category) return;
         const updatedComputer:CreateComputer = {
             category: category.id,

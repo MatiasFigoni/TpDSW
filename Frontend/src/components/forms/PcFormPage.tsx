@@ -30,14 +30,15 @@ function PcFormPage({ computer, onSubmit, isSubmitting = false, submitError, sub
 		defaultValues: {
 			PcNumber: computer?.pcNumber ?? 0,
 			PcDescription: computer?.description ?? '',
-			PcStatus: computer?.status ?? 'Disponible', 
+			PcStatus: computer?.status ?? 'disponible', 
 			PcCategory: computer?.category.description ?? '',
 		}
 	});
+	console.log(isSubmitting)
 	return (
 		<section className="py-16 px-6 mx-auto">
 			<div className="flex justify-center pb-4">
-			<h1 className="text-white text-3xl w-2xl text-center pb-2 border-b border-zinc-800">Panel de Modificacion de Computadora</h1>
+			<h1 className="text-white text-3xl w-2xl text-center pb-2 border-b border-zinc-800">Panel de {mode === 'create'?'creación':'modificacion'} de Computadora</h1>
 			</div>
 			<div className="bg-zinc-900 p-5 rounded-2xl border-2 border-zinc-800">
 				<form className="flex flex-col h-full md:w-2/3 text-white" onSubmit={handleSubmit(onSubmit)}>
@@ -65,6 +66,7 @@ function PcFormPage({ computer, onSubmit, isSubmitting = false, submitError, sub
 						{mode ==='edit' && <input type="button" value={isDeleting ? "Eliminando..." : "Eliminar"} onClick={()=>setpanelDelete(!panelDelete)} className="mx-1 py-1.5 px-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg text-sm transition-colors" />}
 						<Link to={'/admin/PcAdmin'} className="mx-1 py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors">Volver</Link>
 					</div>
+
 					{panelDelete && 
 					<div role="confirm" className="mt-3 rounded-lg border border-yellow-800 bg-yellow-950 px-4 py-3 text-orange-300">Seguro desea eliminar la computadora? 
 						<input type="button" value={isDeleting ? "Eliminando..." : "Eliminar"} className="mx-1 py-1.5 px-4 bg-orange-600 hover:bg-orange-500 text-white font-semibold rounded-lg text-sm transition-colors" 

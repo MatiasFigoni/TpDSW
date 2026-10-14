@@ -1,20 +1,24 @@
-function PcMaintenance(){
-
+import { useForm } from "react-hook-form";
+import type { Maintenance } from "../../types/maintenance.class.ts";
+interface FormMaintenance{
+	MaintenanceDescription: string,
+	MaintenanceStartDate: Date
+	MaintenanceEndDate: Date,
+	MaintenanceStatus: string,
+}
+interface PcMaintenanceProps{
+	lastMaintenance: Maintenance,
+}
+function PcMaintenance({  }:PcMaintenanceProps){
+	const { } = useForm<FormMaintenance>({
+		defaultValues: {
+		}
+	})
 	//Terminar de hacer el mantenimiento
     return(
         <>
             
-					{/* <button
-						type="button"
-						className="mt-5 flex w-full items-center justify-between border-b border-zinc-800 py-3 text-left text-xl font-semibold hover:text-zinc-300"
-						aria-expanded={isMaintenanceOpen}
-						aria-controls="maintenance-fields"
-						onClick={() => setIsMaintenanceOpen((open) => !open)}
-					>
-						<span>Seccion Mantenimiento</span>
-						<ChevronDown size={20} className={`transition-transform ${isMaintenanceOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
-					</button>
-					
+					{/*
 
 					<div id="maintenance-fields" className={`${isMaintenanceOpen ? 'flex' : 'hidden'} flex-col`}>
 						<h4>Registrar Maintenimiento</h4>

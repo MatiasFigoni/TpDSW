@@ -11,13 +11,12 @@ import { Link } from "react-router";
 // import PcDescriptionAdmin from "../../components/PcDescriptionAdmin/PcDescriptionAdmin.tsx";
 
 function PcAdmin() {
-    const[nroPagina, setNroPagina] = useState<number>(0)
-    const [category,setCategory] = useState<string>('');
+    const [nroPagina, setNroPagina] = useState<number>(0)
+    const [category, setCategory] = useState<string>('');
+    const { data: categoryId } = useCategoryId(category);
+    const { data: computerQuery, isPending, isError, error } = useComputers(categoryId)
 
-    const { data:categoryId } = useCategoryId(category);   
-    const { data:computerQuery, isPending, isError, error } = useComputers(categoryId)
-    
-    const handlerCategory = (description:string):void => {
+    const handlerCategory = (description: string): void => {
         setCategory(description);
     }
 
@@ -26,37 +25,47 @@ function PcAdmin() {
             <Loading />
         );
     }
-    
+
     if (isError) {
+        if (error.message.toLocaleLowerCase().includes('no hay computadoras registradas')) {
+            return (
+                <div className="text-zinc-400 text-center mx-24 my-6 rounded-2xl border border-zinc-800 py-8 bg-zinc-900">
+                    <h2 className="text-xl">No se encontraron computadoras</h2>
+                    <p className="my-4">Puede agregar una nueva computadora para empezar.</p>
+                    <Link to={"new"} className=" mx-1 py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-50">Agregar computadora</Link>
+                </div>
+            )
+        }
         return (
             <Error error={error.message} />
         );
     };
-    
-    function handlerPage(e:React.MouseEvent<HTMLButtonElement>){
-        if(e.currentTarget.id === 'Anterior' && nroPagina > 4 )
-            setNroPagina(nroPagina-5);
-        if(e.currentTarget.id === 'Siguiente')
-            setNroPagina(nroPagina+5);
+
+    function handlerPage(e: React.MouseEvent<HTMLButtonElement>) {
+        if (e.currentTarget.id === 'Anterior' && nroPagina > 4)
+            setNroPagina(nroPagina - 5);
+        if (e.currentTarget.id === 'Siguiente')
+            setNroPagina(nroPagina + 5);
     }
 
-    const filteredComputerList = computerQuery.slice(nroPagina,nroPagina+5);
-    
+    const filteredComputerList = computerQuery.slice(nroPagina, nroPagina + 5);
+
     return (
         <section className="sm:m-16 m-4">
             <h1 className="text-3xl text-white font-medium">Panel administrador</h1>
             <div className="flex my-4 md:text-lg justify-center">
-                    <div className="md:flex md:px-16 p-2 bg-zinc-900 gap-x-2 text-zinc-400 rounded-3xl border border-zinc-800">
-                        <div className="flex">
+                <div className="md:flex md:px-16 p-2 bg-zinc-900 gap-x-2 text-zinc-400 rounded-3xl border border-zinc-800">
+                    <div className="flex">
                         <p className="m-2">Filtrar categoria:</p>
                         <CategorySelect value={category} onChange={handlerCategory} />
-                        </div>
-                        <div className="flex items-center not-md:justify-center">
-                            <Link to={"new"} className=" mx-1 py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-50">Agregar computadora</Link>
-                        </div>
                     </div>
-                    
+                    <div className="flex items-center not-md:justify-center">
+                        <Link to={"new"} className=" mx-1 py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-50">Agregar computadora</Link>
+                    </div>
                 </div>
+
+            </div>
+
             <div className="overflow-x-auto">
                 <table className="bg-zinc-800 table-auto w-full text-white">
                     <thead>
@@ -70,13 +79,13 @@ function PcAdmin() {
                     </thead>
                     <tbody className="text-center">
                         {filteredComputerList.map((c: Computer) => (
-                            <PcItemTableAdmin key={c.pcNumber} computer={c}/>
+                            <PcItemTableAdmin key={c.pcNumber} computer={c} />
                         ))}
                     </tbody>
                 </table>
             </div>
             <div className="text-white p-2.5">
-                <span className="px-2">Pagina {(nroPagina)/5}</span>
+                <span className="px-2">Pagina {(nroPagina) / 5}</span>
                 <button type="button" className="mx-1 px-2 py-1 bg-zinc-800 hover:bg-zinc-700 rounded-md" id="Anterior" onClick={handlerPage}>Anterior</button>
                 <button type="button" className="mx-1 px-2 py-1 bg-zinc-800 hover:bg-zinc-700 rounded-md" id="Siguiente" onClick={handlerPage}>Siguiente</button>
             </div>
