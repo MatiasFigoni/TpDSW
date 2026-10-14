@@ -98,10 +98,15 @@ async function findOneLatestMaintenance(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
   try {
+
     const { maintenance, ...computerData } = req.body.sanitizedInput
-    const computer = em.create(Computer, computerData)
+      const NumberToValidate= computerData.pcNumber
+      const ExistingpcNumber= await em.findOne(Computer,{pcNumber:NumberToValidate });
+        if (ExistingpcNumber) {
+          return res.status(400).json({message:'that Number is already picked  , please select another one'})};
+    await em.create(Computer, computerData)
     await em.flush()
-    res.status(201).json({ message: 'Computer created', data: computer })
+    res.status(201).json({ message: 'Computer created', data: computerData })
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }

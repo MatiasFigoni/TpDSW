@@ -5,6 +5,8 @@ import { Computer } from '../computer/computer.entity.js';
 
 @Entity()
 export class Category extends BaseEntity {
+    @Property({ nullable: false , unique: true })
+    name!: string;
     
     @Property({ nullable: false })
     description!: string;

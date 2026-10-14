@@ -6,7 +6,7 @@ export const orm = await MikroORM.init({
     entitiesTs: ['src/**/*.entity.ts'],
     dbName: 'CyberDB',
     driver: MySqlDriver,
-    clientUrl: 'mysql://dsw:dsw@localhost:3307/CyberDB',
+    clientUrl: 'mysql://dsw:dsw@localhost:3306/CyberDB',
     highlighter: new SqlHighlighter(),
     debug: true,
     schemaGenerator: {

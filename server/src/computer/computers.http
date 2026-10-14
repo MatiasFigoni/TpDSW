@@ -3,6 +3,7 @@ GET http://localhost:3000/api/computers
 
 
 #### obtener una computadora
+
 GET http://localhost:3000/api/computers/10/maintenance/latest
 
 # "maintenance": 0,
@@ -12,8 +13,10 @@ GET http://localhost:3000/api/computers/10/maintenance/latest
 ### Cargar nueva computadora
 POST http://localhost:3000/api/computers
 Content-Type: application/json
+x-role: admin
 
 {
+
   "maintenance": [],
   "category": 2,
   "status": "Disponible",
@@ -23,8 +26,19 @@ Content-Type: application/json
 
 ###modificar computadora
 put http://localhost:3000/api/computers/74
-Content-Type: application/json
+{
+  "maintenance": 1,
+  "category": 1,
+  "status": "Disponiblee",
+  "description": "art ",
+  "pcNumber": 1020
+}
 
+### modificar computadora
+PUT http://localhost:3000/api/computers/2
+
+Content-Type: application/json
+x-role:   admin
   {
     "id":3,
       "pcNumber":10,
@@ -43,7 +57,9 @@ Content-Type: application/json
     "maintenance": []
   }
 #### Eliminar computadora
+
 DELETE http://localhost:3000/api/computers/13
+
 
 
 ###filtro En este caso, se filtra por categoria, estado y mantenimiento. Estado string: Disponible, Ocupado, Mantenimiento. Mantenimiento: num. Categoria: num

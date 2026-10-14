@@ -1,0 +1,44 @@
+### 1. Consultar computadoras disponibles en un horario puntual  date=YYYY-MM-DD&hour=HH
+GET http://localhost:3000/api/turns/available-computers?date=2026-10-15&hour=10
+
+### 2. Crear un nuevo turno (nace en status PENDIENTE)
+# @name nuevoTurno
+POST http://localhost:3000/api/turns
+Content-Type: application/json
+
+{
+  "computerId": 3,
+  "clientId": 4,
+  "startTime": "2026-10-16T20:00:00.000",
+  "endTime": "2026-10-16T21:00:00.000",
+  "extraPrice": 0
+}
+
+### 3. Verificar que el Turno.id existe y su status es PENDIENTE
+GET http://localhost:3000/api/turns/18
+
+### 4. Consultar disponibilidad de nuevo: la PC.id ya NO debe aparecer disponible
+GET http://localhost:3000/api/turns/available-computers?date=2026-10-16&hour=20
+
+### 5. Iniciar el cobro para el Turno #1 (crea el Pago en PENDIENTE)
+POST http://localhost:3000/api/payments
+Content-Type: application/json
+
+{
+  "idTurn": 17,
+  "amount": 3500,
+  "method": "tarjeta",
+  "status": "PENDIENTE"
+}
+
+### 6. Simular el pago exitoso (PAGADO)
+# la transición en backend para cambiar el Turn a RESERVADO
+PATCH http://localhost:3000/api/payments/10/status
+Content-Type: application/json
+
+{
+  "newStatus": "PAGADO"
+}
+
+### 7. verificar que el Turno.#id pasó a RESERVADO
+GET http://localhost:3000/api/turns/17

@@ -7,6 +7,8 @@ import { orm, syncSchema } from './shared/db/orm.js';
 import { RequestContext } from '@mikro-orm/core';
 import { employeeRouter } from './person/employee.routes.js';
 import { clientRouter } from './person/client.routes.js';
+import { payRouter } from './services/pay.routes.js';
+import { turnRouter } from './services/turn.routes.js';
 import cors from 'cors';
 const app = express();
 app.use(express.json());
@@ -19,6 +21,8 @@ app.use('/api/computer/maintenance', MaintenanceRouter);
 app.use('/api/employees', employeeRouter);
 app.use('/api/clients', clientRouter);
 app.use('/api/categories', categoryRouter);
+app.use('/api/payments', payRouter);
+app.use('/api/turns', turnRouter);
 app.use((_, res) => {
     return res.status(404).send({ message: 'Route not found' });
 });

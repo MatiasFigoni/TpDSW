@@ -6,6 +6,7 @@
 
     function sanitizeCategoryData(req: Request, res:Response, next: NextFunction) {
     req.body.sanitizedInput = {
+        name: req.body.name,
         description: req.body.description,
         hourly_price: req.body.hourly_price         
     };
@@ -30,6 +31,9 @@
     async  function findOne(req: Request, res:Response){
         try { 
         const catid = +req.params.id
+        if (Number.isNaN(catid)) {
+      return res.status(400).json({ message: 'Invalid ID format.' });
+    }
         const ret= await em.findOneOrFail(Category,{ id:catid});
          res.status(200).json({message : 'category found ', data:ret});
         }
@@ -41,10 +45,20 @@
                                 
     async function add(req: Request, res:Response){
         try{
-        em.create(Category, req.body.sanitizedInput);
-        await em.flush() ;
+            const { description, hourly_price } = req.body.sanitizedInput || {};
+    if (!description || hourly_price === undefined) {
+      return res.status(400).json({ message: 'Missing required fields: description and hourly_price are required.' });
+    }
+            const NameToValidate= req.body.sanitizedInput.name
+            const ExistingName= await em.findOne(Category,{name:NameToValidate });
+        
+            if (ExistingName) {
+              return res.status(400).json({message:'that Name is already picked up chief, please use another one'})
+            }     
+        const category = em.create(Category, req.body.sanitizedInput);
+            await em.flush();
 
-        res.status(201).json({message:'The Category has succesfuly been created'})
+        res.status(201).json({message:'The Category has succesfuly been created', data:category});
             }
         catch(error: any){
             res.status(500).json({message: error.message})
@@ -52,22 +66,37 @@
                         }                
 async function update(req: Request, res:Response) {
     try {
-    const info=req.body
-    const idToSearch= +req.params.id
+    
+    const idToSearch= Number.parseInt(req.params.id);
+        if (Number.isNaN(idToSearch)) {
+      return res.status(400).json({ message: 'Invalid ID format.' });
+    }
+
     const categoryFound = await em.findOneOrFail(Category, { id : idToSearch } ) 
    
-        em.assign(categoryFound, req.body.sanitizedInput)
+        const inputData = req.body.sanitizedInput;
+    if (!inputData || Object.keys(inputData).length === 0) {
+      return res.status(400).json({ 
+        message: 'No valid fields provided for update.' 
+      });
+    }
+    
+    em.assign(categoryFound, req.body.sanitizedInput)
         await em.flush()
-        res.status(200).json({message:'The Category has succefuly been updated'})
+        
+        res.status(200).json({message:'The Category has succefuly been updated',data: categoryFound})
     }
                 catch(error: any){
                     res.status(500).json({message: error.message})
                 }
                 }
 
-        async function remove (req: Request, res:Response){
-            try {
+async function remove (req: Request, res:Response){
+    try {
         const   idOfCategoryToDelete= +req.params.id ;
+        if (Number.isNaN(idOfCategoryToDelete)) {
+      return res.status(400).json({ message: 'Invalid ID format.' });
+        }
         const catToDelete = await em.findOneOrFail(Category, { id: idOfCategoryToDelete })
           
             em.remove(catToDelete);
