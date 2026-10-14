@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { sanitizeClientData, findAll, findOne, add, update, remove } from './client.controler.js';
+import { sanitizeClientData, findAll, findOne, add, update, remove, validateEmailAndPassword } from './client.controler.js';
 export const clientRouter = Router();
 clientRouter.get('/', findAll);
 clientRouter.get('/:id', findOne);
@@ -7,4 +7,5 @@ clientRouter.post('/', sanitizeClientData, add);
 clientRouter.patch('/:id', sanitizeClientData, update);
 clientRouter.put('/:id', sanitizeClientData, update);
 clientRouter.delete('/:id', remove);
+clientRouter.post('/login', validateEmailAndPassword);
 //# sourceMappingURL=client.routes.js.map

@@ -3,52 +3,53 @@ GET http://localhost:3000/api/computers
 
 
 #### obtener una computadora
-GET http://localhost:3000/api/computers/1
+GET http://localhost:3000/api/computers/10/maintenance/latest
 
-  # "maintenance": 0,
+# "maintenance": 0,
+
+
+
 ### Cargar nueva computadora
 POST http://localhost:3000/api/computers
 Content-Type: application/json
 
 {
-  "maintenance": 3,
-  "category": 3,
+  "maintenance": [],
+  "category": 2,
   "status": "Disponible",
-  "description": "Rtx 3080ti + R1yzen 7 5700x",
-  "pcNumber": 13
+  "description": "Rtx 3080ti + R1yzen 7 5700x + 32GB DDR5 6000MHz + 27\" IPS 1440p 240Hz",
+  "pcNumber": 13  
 }
 
 ###modificar computadora
-put http://localhost:3000/api/computers/2
+put http://localhost:3000/api/computers/74
 Content-Type: application/json
 
   {
-    "category": "PcGamer",
-    "description": "Rtx 308011ti + Ryzen 7 5700x",
-    "price": 10200,
-    "pcNumber": 3,
-    "status": true
+    "id":3,
+      "pcNumber":10,
+      "description":"Rtx 3080ti + R1yzen 7 5700x + 32GB DDR5 6000MHz + 27\" IPS 1440p 240Hz",
+      "status":"disponible"
   }
 
 ###modificar parcialmente computadora  Es innecesaria esta, despues lo saco.
-PATCH http://localhost:3000/api/computers/2
+PATCH http://localhost:3000/api/computers/1
 Content-Type: application/json
 
   {
-    "category": "PcGamer",
-      "description": "Rtx 3080ti + Ryzen 7 5700x",
-      "price": 1000,
-      "pcNumber": 21,
-      "status": false
+    "pcNumber": 1,
+    "description": "Rtx 3080ti + R1yzen 7 5700x + 32GB DDR5 6000MHz + 27\" IPS 1440p 240Hz",
+    "status": "disponible",
+    "maintenance": []
   }
 #### Eliminar computadora
-delete http://localhost:3000/api/computers/1
+DELETE http://localhost:3000/api/computers/13
 
 
 ###filtro En este caso, se filtra por categoria, estado y mantenimiento. Estado string: Disponible, Ocupado, Mantenimiento. Mantenimiento: num. Categoria: num
 GET http://localhost:3000/api/computers/filter?category=3&status=Disponible&maintenance=3
 
 ### filtrar por categoria
-GET http://localhost:3000/api/computers/category/3
+GET http://localhost:3000/api/computers/category/1
 
   

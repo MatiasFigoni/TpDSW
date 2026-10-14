@@ -7,11 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, ManyToOne, } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, Collection, OneToMany, Cascade, } from '@mikro-orm/core';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 import { Category } from '../category/category.entity.js';
 import { Maintenance } from './maintenance.entity.js';
 export let Computer = class Computer extends BaseEntity {
+    constructor() {
+        super(...arguments);
+        this.maintenance = new Collection(this);
+    }
 };
 __decorate([
     ManyToOne(() => Category, { nullable: false }),
@@ -30,7 +34,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Computer.prototype, "pcNumber", void 0);
 __decorate([
-    ManyToOne(() => Maintenance, { nullable: false }),
+    OneToMany(() => Maintenance, (m) => m.computer, { cascade: [Cascade.ALL] }),
     __metadata("design:type", Object)
 ], Computer.prototype, "maintenance", void 0);
 Computer = __decorate([

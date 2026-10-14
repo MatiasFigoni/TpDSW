@@ -1,4 +1,5 @@
 import { Computer } from './computer.entity.js';
+import { Maintenance } from './maintenance.entity.js';
 import { orm } from '../shared/db/orm.js';
 /* import { computerRouter } from './computer.routes.js'; */
 //Realizar CRUD de Computadoras.
@@ -37,17 +38,41 @@ async function findAll(req, res) {
 }
 async function findOne(req, res) {
     try {
-        const id = Number.parseInt(req.params.id);
-        const computer = await em.findOneOrFail(Computer, { id }, { populate: ['category', 'maintenance'] });
+        const pcNumber = Number.parseInt(req.params.id);
+        const computer = await em.findOneOrFail(Computer, { pcNumber }, { populate: ['category', 'maintenance'] });
         res.status(200).json({ message: 'found computer', data: computer });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
+async function findOneLatestMaintenance(req, res) {
+    try {
+        const pcNumber = Number.parseInt(req.params.pcNumber);
+        const computer = await em.findOneOrFail(Computer, { pcNumber }, { populate: ['category'],
+        });
+        const latestMaintenance = await em.findOne(Maintenance, { computer: computer.id }, { orderBy: { start_date: 'desc', id: 'desc' },
+        });
+        res.status(200).json({
+            message: 'found computer with latest maintenance',
+            data: {
+                id: computer.id,
+                description: computer.description,
+                category: computer.category,
+                pcNumber: computer.pcNumber,
+                status: computer.status,
+                maintenance: latestMaintenance ?? null,
+            },
+        });
+    }
+    catch (error) {
+        res.status(505).json({ message: error.message });
+    }
+}
 async function add(req, res) {
     try {
-        const computer = em.create(Computer, req.body.sanitizedInput);
+        const { maintenance, ...computerData } = req.body.sanitizedInput;
+        const computer = em.create(Computer, computerData);
         await em.flush();
         res.status(201).json({ message: 'Computer created', data: computer });
     }
@@ -57,9 +82,10 @@ async function add(req, res) {
 }
 async function update(req, res) {
     try {
-        const id = Number.parseInt(req.params.id);
-        const computerToUpdate = await em.findOneOrFail(Computer, { id });
-        em.assign(computerToUpdate, req.body.sanitizedInput);
+        const pcNumber = Number.parseInt(req.params.id);
+        const computerToUpdate = await em.findOneOrFail(Computer, { pcNumber });
+        const { maintenance, ...computerData } = req.body.sanitizedInput;
+        em.assign(computerToUpdate, computerData);
         await em.flush();
         res
             .status(200)
@@ -71,8 +97,8 @@ async function update(req, res) {
 }
 async function remove(req, res) {
     try {
-        const id = Number.parseInt(req.params.id);
-        const computer = em.getReference(Computer, id);
+        const pcNumber = Number.parseInt(req.params.id);
+        const computer = await em.findOneOrFail(Computer, { pcNumber });
         await em.remove(computer);
         await em.flush();
         res.status(200).json({ message: 'Computer removed' });
@@ -119,5 +145,5 @@ async function filterByCategory(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-export { sanitizeComputerData, findAll, findOne, add, update, remove, filter, filterByCategory };
+export { sanitizeComputerData, findAll, findOne, add, update, remove, filter, filterByCategory, findOneLatestMaintenance };
 //# sourceMappingURL=computer.controler.js.map

@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { Computer } from './computer.entity.js';
+import { Maintenance } from './maintenance.entity.js';
 import { orm } from '../shared/db/orm.js';
- /* import { computerRouter } from './computer.routes.js'; */ 
+/* import { computerRouter } from './computer.routes.js'; */
 
 //Realizar CRUD de Computadoras.
 //Realizar cambio de estado de computadoras (disponible/no disponible) con un endpoint específico para ello.
@@ -10,7 +11,7 @@ import { orm } from '../shared/db/orm.js';
 
 const em = orm.em
 
-function sanitizeComputerData(req: Request, res: Response, next: NextFunction){
+function sanitizeComputerData(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     maintenance: req.body.maintenance,
     category: req.body.category,
@@ -18,8 +19,8 @@ function sanitizeComputerData(req: Request, res: Response, next: NextFunction){
     description: req.body.description,
     status: req.body.status
   }
-    
-  
+
+
   Object.keys(req.body.sanitizedInput).forEach(key => {
     if (req.body.sanitizedInput[key] === undefined) {
       delete req.body.sanitizedInput[key];
@@ -28,45 +29,77 @@ function sanitizeComputerData(req: Request, res: Response, next: NextFunction){
   next();
 }
 
-async function findAll(req: Request, res: Response){
+async function findAll(req: Request, res: Response) {
   try {
     const computer = await em.find(
       Computer,
       {},
-      { populate: ['category', 'maintenance']}
+      { populate: ['category', 'maintenance'] }
 
 
     )
-    if (computer.length===0)
+    if (computer.length === 0)
       return res.status(404).json({
-        message:'the computer database is empty.',
+        message: 'the computer database is empty.',
         data: [],
       })
-    res.json( { message: 'found all computers', data:computer});
-  } catch (error:any) {
-    res.status(500).json({message: error.mesage})
+    res.json({ message: 'found all computers', data: computer });
+  } catch (error: any) {
+    res.status(500).json({ message: error.mesage })
   }
 }
 
-async function findOne(req: Request, res: Response){
+async function findOne(req: Request, res: Response) {
   try {
-    const id = Number.parseInt(req.params.id)
+    const pcNumber = Number.parseInt(req.params.id)
     const computer = await em.findOneOrFail(
       Computer,
-      {id},
-      { populate: ['category', 'maintenance']}
-      
+      { pcNumber },
+      { populate: ['category','maintenance'] }
     )
-    res.status(200).json({ message: 'found computer', data:computer})
+    
+    res.status(200).json({ message: 'found computer', data: computer })
 
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({ message: error.message })
+  }
+}
+
+async function findOneLatestMaintenance(req: Request, res: Response){
+  try{
+    const pcNumber = Number.parseInt(req.params.pcNumber);
+    const computer = await em.findOneOrFail(
+      Computer,
+      {pcNumber},
+      { populate: ['category'],
+      }
+    )
+    const latestMaintenance = await em.findOne(
+      Maintenance,
+      { computer: computer.id},
+      { orderBy: { start_date: 'desc', id: 'desc' },
+      }
+    )
+    res.status(200).json({
+      message: 'found computer with latest maintenance',
+      data: {
+        id: computer.id,
+        description: computer.description,
+        category: computer.category,
+        pcNumber: computer.pcNumber,
+        status: computer.status,
+        maintenance: latestMaintenance ?? null,
+      },
+    })
+  }catch(error:any){
+    res.status(505).json({ message: error.message })
   }
 }
 
 async function add(req: Request, res: Response) {
   try {
-    const computer = em.create(Computer, req.body.sanitizedInput)
+    const { maintenance, ...computerData } = req.body.sanitizedInput
+    const computer = em.create(Computer, computerData)
     await em.flush()
     res.status(201).json({ message: 'Computer created', data: computer })
   } catch (error: any) {
@@ -76,9 +109,10 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
-    const id = Number.parseInt(req.params.id)
-    const computerToUpdate = await em.findOneOrFail(Computer, { id })
-    em.assign(computerToUpdate, req.body.sanitizedInput)
+    const pcNumber = Number.parseInt(req.params.id)
+    const computerToUpdate = await em.findOneOrFail(Computer, { pcNumber })
+    const { maintenance, ...computerData } = req.body.sanitizedInput
+    em.assign(computerToUpdate, computerData)
     await em.flush()
     res
       .status(200)
@@ -90,8 +124,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
-    const id = Number.parseInt(req.params.id)
-    const computer = em.getReference(Computer, id)
+    const pcNumber = Number.parseInt(req.params.id)
+    const computer = await em.findOneOrFail(Computer, { pcNumber })
     await em.remove(computer)
     await em.flush()
     res.status(200).json({ message: 'Computer removed' })
@@ -113,7 +147,7 @@ async function filter(req: Request, res: Response) {
     }
 
     if (status !== undefined) {
-      filters.status = status ;
+      filters.status = status;
     }
 
     if (maintenance) {
@@ -143,4 +177,4 @@ async function filterByCategory(req: Request, res: Response) {
   }
 }
 
-export { sanitizeComputerData, findAll, findOne, add, update, remove, filter, filterByCategory }
+export { sanitizeComputerData, findAll, findOne, add, update, remove, filter, filterByCategory, findOneLatestMaintenance }

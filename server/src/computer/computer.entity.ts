@@ -2,8 +2,10 @@ import {
   Entity,
   Property,
   ManyToOne,
+  Collection,
   Rel,
-  
+  OneToMany,
+  Cascade,
 
 } from '@mikro-orm/core'
 import { BaseEntity } from '../shared/db/baseEntity.entity.js'
@@ -25,7 +27,6 @@ export class Computer extends BaseEntity {
   @Property ({nullable:false})
   pcNumber!:number
   
-  @ManyToOne(() => Maintenance, { nullable: false })
-  maintenance!: Rel<Maintenance>
-  
+  @OneToMany(()=>Maintenance,(m)=> m.computer, {cascade: [Cascade.ALL]})
+  maintenance = new Collection<Maintenance>(this)
 }

@@ -74,5 +74,21 @@ async function remove(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-export { sanitizeEmployeeData, findAll, findOne, add, update, remove };
+async function validateEmailAndPassword(req, res) {
+    try {
+        const email = (req.body.email);
+        const password = (req.body.password);
+        const user = await em.findOne(Employee, { email, password });
+        if (user) {
+            res.status(200).json({ message: 'welcome back partner' });
+        }
+        else {
+            res.status(404).json({ message: 'there was not partner found with the credentials that were inputeds' });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Internal error we are sorry' });
+    }
+}
+export { sanitizeEmployeeData, findAll, findOne, add, update, remove, validateEmailAndPassword };
 //# sourceMappingURL=employee.controler.js.map
