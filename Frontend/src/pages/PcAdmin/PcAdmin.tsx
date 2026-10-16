@@ -29,7 +29,7 @@ function PcAdmin() {
     if (isError) {
         if (error.message.toLocaleLowerCase().includes('no hay computadoras registradas')) {
             return (
-                <div className="text-zinc-400 text-center mx-24 my-6 rounded-2xl border border-zinc-800 py-8 bg-zinc-900">
+                <div className="text-zinc-400 text-center mx-4 sm:mx-24 my-6 rounded-2xl border border-zinc-800 py-8 bg-zinc-900">
                     <h2 className="text-xl">No se encontraron computadoras</h2>
                     <p className="my-4">Puede agregar una nueva computadora para empezar.</p>
                     <Link to={"new"} className=" mx-1 py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-50">Agregar computadora</Link>

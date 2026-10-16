@@ -1,15 +1,25 @@
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth.ts";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const { user, logout } = useAuth();
+    const isAdmin = user?.isAdmin;
 
     const navLinks = [
         { name: "Inicio", to: "/" },
         { name: 'Equipos', to: '/PcMap'},
         {name: 'Nosotros', to: '/about'}
     ];
+    const navLinksAdmin = [
+        { name: 'Panel Reservas', to: '/admin/TurnAdmin'},
+        { name: 'Panel Computadoras', to: '/admin/PcAdmin'},
+        { name: 'Panel Categorias', to: '/admin/CategoryAdmin'},
+    ]
+
+    const links = isAdmin ? navLinksAdmin : navLinks
     return (
         <>
             <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
@@ -20,10 +30,9 @@ function Header() {
                         <div className="shrink-0 font-bold text-xl tracking-wide text-indigo-400">
                             <Link to={'/'}>Player Start</Link>
                         </div>
-
                         {/* Menú de Escritorio (Oculto en pantallas pequeñas) */}
                         <div className="hidden md:flex items-center space-x-8">
-                            {navLinks.map((link) => (
+                            {links.map((link) => (
                                 <Link
                                     key={link.name}
                                     to={link.to}
@@ -35,12 +44,25 @@ function Header() {
 
                             {/* Botón Call To Action (Escritorio) */}
                             <div className="hidden md:block">
-                                <Link
-                                    to={"/"}
-                                    className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 mr-2 rounded-lg text-sm transition-colors"
-                                >
-                                    Reservar
-                                </Link>
+                                {user ? (
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-sm text-gray-300">{user.name}</span>
+                                        <button
+                                            type="button"
+                                            onClick={logout}
+                                            className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors"
+                                        >
+                                            Cerrar sesión
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <Link
+                                        to={"/login"}
+                                        className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 mr-2 rounded-lg text-sm transition-colors"
+                                    >
+                                        Iniciar sesión
+                                    </Link>
+                                )}
                             </div>
                         </div>
 
@@ -69,7 +91,7 @@ function Header() {
                 {isOpen && (
                     <div className="md:hidden bg-slate-800 border-t border-slate-700" id="mobile-menu">
                         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                            {navLinks.map((link) => (
+                            {links.map((link) => (
                                 <Link
                                     key={link.name}
                                     to={link.to}
@@ -79,13 +101,29 @@ function Header() {
                                     {link.name}
                                 </Link>
                             ))}
-                            <Link
-                                to={"/"}
-                                onClick={() => setIsOpen(false)}
-                                className="w-full text-center block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base mt-4 transition-colors"
-                            >
-                                Reservar
-                            </Link>
+                            {user ? (
+                                <div className="mt-4 space-y-2 px-3 pb-2">
+                                    <p className="text-sm text-gray-300">{user.name}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            logout();
+                                            setIsOpen(false);
+                                        }}
+                                        className="w-full text-center bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base transition-colors"
+                                    >
+                                        Cerrar sesión
+                                    </button>
+                                </div>
+                            ) : (
+                                <Link
+                                    to={"/login"}
+                                    onClick={() => setIsOpen(false)}
+                                    className="w-full text-center block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base mt-4 transition-colors"
+                                >
+                                    Iniciar sesión
+                                </Link>
+                            )}
                         </div>
                     </div>
                 )}

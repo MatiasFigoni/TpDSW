@@ -1,5 +1,7 @@
 import { Link, Outlet } from "react-router";
 import Header from "../components/header/header.tsx";
+import Login from '../pages/Login/Login.tsx';
+import { useAuth } from "../hooks/useAuth.ts";
 
 function AdminLayout() {
     return (
@@ -11,6 +13,17 @@ function AdminLayout() {
         </>
     );
 };
+
+function AdminEntry() {
+  const { user, accountType } = useAuth();
+
+  if (!user || accountType !== "employee") {
+    
+    return <Login accountType="employee" redirectTo="/admin"/>;
+  }
+
+  return <AdminLayout/>;
+}
 
 export function AdminDashboard() {
     return (
@@ -46,4 +59,4 @@ export function AdminDashboard() {
     );
 }
 
-export default AdminLayout;
+export default AdminEntry;
