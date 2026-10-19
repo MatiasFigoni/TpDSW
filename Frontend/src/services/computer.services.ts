@@ -20,30 +20,30 @@ export async function fetchComputerNumberLatestMaintenance(pcNumber:string):Prom
   return result.data;
 }
 
-export async function createComputer(computer:CreateComputer):Promise<Computer> {
+export async function createComputer(computer:CreateComputer,role:string):Promise<Computer> {
   const response = await api(`/api/computers`,{
     method: 'POST',
     body: JSON.stringify(computer)
-  })
+  },role)
   if(!response.ok) throw new Error('Error al crear la computadora');
   const result = await response.json();
   return result.data;
 }
 
-export async function updateComputer(computer: Computer): Promise<Computer> {
+export async function updateComputer(computer: Computer,role:string): Promise<Computer> {
   const response = await api(`/api/computers/${computer.pcNumber}`, {
     method: 'PUT',
     body: JSON.stringify(computer),
-  });
+  },role);
   if (!response.ok) throw new Error('Error al actualizar la computadora');
   const result = await response.json();
   return result.data;
 }
 
-export async function deleteComputer(pcNumber:string):Promise<string> {
+export async function deleteComputer(pcNumber:string,role:string):Promise<{message:string}> {
   const response = await api(`/api/computers/${pcNumber}`, {
     method: 'DELETE'
-  });
+  },role);
   if(!response.ok) throw new Error('Error al eliminar la computadora');
   const result = await response.json();
   return result.data;

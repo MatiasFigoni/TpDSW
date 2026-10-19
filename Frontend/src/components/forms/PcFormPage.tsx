@@ -31,10 +31,9 @@ function PcFormPage({ computer, onSubmit, isSubmitting = false, submitError, sub
 			PcNumber: computer?.pcNumber ?? 0,
 			PcDescription: computer?.description ?? '',
 			PcStatus: computer?.status ?? 'disponible', 
-			PcCategory: computer?.category.description ?? '',
+			PcCategory: computer?.category.name ?? '',
 		}
 	});
-	console.log(isSubmitting)
 	return (
 		<section className="py-16 px-6 mx-auto">
 			<div className="flex justify-center pb-4">
@@ -62,8 +61,8 @@ function PcFormPage({ computer, onSubmit, isSubmitting = false, submitError, sub
 					</div>
 
 					<div className="pt-6">
-						<input type="submit" value={isSubmitting ? "Guardando..." : "Guardar"} disabled={isSubmitting} className="mx-1 py-1.5 px-4 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-50" />
-						{mode ==='edit' && <input type="button" value={isDeleting ? "Eliminando..." : "Eliminar"} onClick={()=>setpanelDelete(!panelDelete)} className="mx-1 py-1.5 px-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg text-sm transition-colors" />}
+						<input type="submit" value={isSubmitting ? "Guardando..." : "Guardar"} disabled={isSubmitting} className="mx-1 mb-2.5 py-1.5 px-4 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg text-sm transition-colors disabled:opacity-50" />
+						{mode ==='edit' && <input type="button" value={isDeleting ? "Eliminando..." : "Eliminar"} onClick={()=>setpanelDelete(!panelDelete)} className="mx-1 mb-2.5 py-1.5 px-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg text-sm transition-colors" />}
 						<Link to={'/admin/PcAdmin'} className="mx-1 py-1.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-sm transition-colors">Volver</Link>
 					</div>
 

@@ -17,7 +17,7 @@ function AdminLayout() {
 function AdminEntry() {
   const { user, accountType } = useAuth();
 
-  if (!user || accountType !== "employee") {
+  if (!user || accountType !== "employee" || user.role !== 'admin') {
     
     return <Login accountType="employee" redirectTo="/admin"/>;
   }

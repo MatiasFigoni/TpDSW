@@ -24,7 +24,7 @@ export function useComputerModify() {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (computer: Computer) => updateComputer(computer),
+		mutationFn: (params:{computer: Computer,role:string}) => updateComputer(params.computer,params.role),
 		onSuccess: async () => {
 			await Promise.all([
 				queryClient.invalidateQueries({ queryKey: ['computer'] }),
@@ -37,7 +37,7 @@ export function useComputerModify() {
 export function useComputerCreate(){
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (computer:CreateComputer) => createComputer(computer),
+    mutationFn: (params:{computer:CreateComputer,role:string}) => createComputer(params.computer,params.role),
     onSuccess: async ()=>{
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['computer'] }),
@@ -50,12 +50,10 @@ export function useComputerCreate(){
 export function useComputerDelete() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (pcNumber: string) => deleteComputer(pcNumber),
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['computer'] }),
-        queryClient.invalidateQueries({ queryKey: ['computers-map'] }),
-      ]);
+    mutationFn: (params:{pcNumber: string,role:string}) => deleteComputer(params.pcNumber,params.role),
+    onSuccess: async (_data, { pcNumber }) => {
+      queryClient.removeQueries({ queryKey: ['computer', pcNumber], exact: true });
+      await queryClient.invalidateQueries({ queryKey: ['computers-map'] });
     },
   });
 }

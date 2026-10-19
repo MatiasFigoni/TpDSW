@@ -43,7 +43,6 @@ export async function login(accountType: AccountType,credentials: {email:string,
         id: result.data.id,
         name: result.data.name,
         email: result.data.email,
-        isAdmin:result.data.isAdmin,
         role:result.data.role,
     })
     

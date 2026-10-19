@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks/useAuth.ts";
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const { user, logout } = useAuth();
-    const isAdmin = user?.isAdmin;
+    const isAdmin = user?.role === 'admin' ;
 
     const navLinks = [
         { name: "Inicio", to: "/" },
@@ -14,9 +14,10 @@ function Header() {
         {name: 'Nosotros', to: '/about'}
     ];
     const navLinksAdmin = [
-        { name: 'Panel Reservas', to: '/admin/TurnAdmin'},
+        { name:'Inicio', to:'/admin' },
         { name: 'Panel Computadoras', to: '/admin/PcAdmin'},
-        { name: 'Panel Categorias', to: '/admin/CategoryAdmin'},
+        // { name: 'Panel Reservas', to: '/admin/TurnAdmin'},
+        // { name: 'Panel Categorias', to: '/admin/CategoryAdmin'},
     ]
 
     const links = isAdmin ? navLinksAdmin : navLinks

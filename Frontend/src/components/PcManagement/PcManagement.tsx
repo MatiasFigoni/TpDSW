@@ -5,8 +5,11 @@ import { useCategory } from "../../hooks/hooksCategories.ts";
 import PcFormPage,  { type FormComputer } from "../forms/PcFormPage.tsx";
 import { useComputerCreate, useComputerDelete, useComputerPcNumber, useComputerModify } from "../../hooks/hooksComputers.ts";
 import { Computer, type CreateComputer } from "../../types/computer.class.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
 
 function PcManagement() {
+    const {user} = useAuth();
+    
     const { id } = useParams();
     const isCreating = id ? false : true;
     const { data: computer, isPending, isError, error } = useComputerPcNumber(id??"",!isCreating);
@@ -27,12 +30,12 @@ function PcManagement() {
             pcNumber: values.PcNumber,
             status: values.PcStatus
         }
-        console.log(values);
-        createMutation.mutate(updatedComputer);
+        const param = {computer:updatedComputer,role:user!.role}
+        createMutation.mutate(param);
     }
 
     const handleDelete = (pcNumber:string):void => {
-        deleteMutation.mutate(pcNumber,{
+        deleteMutation.mutate({pcNumber:pcNumber,role:user!.role},{
             onSuccess: () => {
                 navigate("/admin/PcAdmin");
             }
@@ -49,8 +52,8 @@ function PcManagement() {
             values.PcNumber,
             values.PcStatus
         )
-
-        modifyMutation.mutate(updatedComputer);
+        const params = {computer:updatedComputer,role:user!.role}
+        modifyMutation.mutate(params);
     };
 
     if(isCreating){

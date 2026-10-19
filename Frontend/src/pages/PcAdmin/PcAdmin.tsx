@@ -1,6 +1,5 @@
 import PcItemTableAdmin from "../../components/PcTableAdmin/PcItemTableAdmin.tsx";
 import type { Computer } from "../../types/computer.class.ts";
-import "./PcAdmin.css";
 import Loading from "../../components/Loading/loading.tsx";
 import Error from "../../components/Error/Error.tsx";
 import { useState } from "react";
@@ -16,8 +15,8 @@ function PcAdmin() {
     const { data: categoryId } = useCategoryId(category);
     const { data: computerQuery, isPending, isError, error } = useComputers(categoryId)
 
-    const handlerCategory = (description: string): void => {
-        setCategory(description);
+    const handlerCategory = (name: string): void => {
+        setCategory(name);
     }
 
     if (isPending) {
@@ -44,7 +43,7 @@ function PcAdmin() {
     function handlerPage(e: React.MouseEvent<HTMLButtonElement>) {
         if (e.currentTarget.id === 'Anterior' && nroPagina > 4)
             setNroPagina(nroPagina - 5);
-        if (e.currentTarget.id === 'Siguiente')
+        if (e.currentTarget.id === 'Siguiente' && computerQuery!.length >5)
             setNroPagina(nroPagina + 5);
     }
 
@@ -54,8 +53,8 @@ function PcAdmin() {
         <section className="sm:m-16 m-4">
             <h1 className="text-3xl text-white font-medium">Panel administrador</h1>
             <div className="flex my-4 md:text-lg justify-center">
-                <div className="md:flex md:px-16 p-2 bg-zinc-900 gap-x-2 text-zinc-400 rounded-3xl border border-zinc-800">
-                    <div className="flex">
+                <div className="not-md:w-full p-2 md:flex md:px-16 justify-center bg-zinc-900 gap-x-2 text-zinc-400 rounded-3xl border border-zinc-800">
+                    <div className="flex justify-center not-sm:pb-2.5">
                         <p className="m-2">Filtrar categoria:</p>
                         <CategorySelect value={category} onChange={handlerCategory} />
                     </div>
@@ -66,7 +65,7 @@ function PcAdmin() {
 
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto pb-3.5">
                 <table className="bg-zinc-800 table-auto w-full text-white">
                     <thead>
                         <tr>

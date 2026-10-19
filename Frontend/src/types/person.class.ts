@@ -6,7 +6,6 @@ export class Person {
     dni?: string;
     email: string;
     username?: string;
-    isAdmin: boolean;
     role: string;
     status?:boolean;
 
@@ -14,7 +13,6 @@ export class Person {
         id: number;
         name: string;
         email: string;
-        isAdmin: boolean;
         role: string;
         lastname?: string;
         phoneNumber?: string;
@@ -25,7 +23,6 @@ export class Person {
         this.id = person.id;
         this.name = person.name;
         this.email = person.email;
-        this.isAdmin = person.isAdmin;
         this.role = person.role;
         this.lastname = person.lastname;
         this.phoneNumber = person.phoneNumber;
