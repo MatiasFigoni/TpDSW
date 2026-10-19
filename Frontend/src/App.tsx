@@ -8,6 +8,7 @@ import AdminEntry, {AdminDashboard} from "./layouts/adminLayout.tsx";
 import PcManagement from "./components/PcManagement/PcManagement.tsx";
 import Login from "./pages/Login/Login.tsx";
 import AuthProvider from "./context/AuthProvider.tsx";
+import { UserRegister } from "./pages/Register/register.tsx";
 // import { useAuth } from "./hooks/useAuth.ts";
 // import PcMaintenance from "./components/forms/PcMaintenance.tsx";
 
@@ -23,6 +24,7 @@ function App() {
               <Route path="/about" element={<About/>}/>
               <Route path="/PcMap" element={<PcMap/>}/>
               <Route path="/login" element={<Login accountType="client"/>}/>
+              <Route path="/register" element={<UserRegister/>}/>
             </Route>
             <Route path="/admin" element={<AdminEntry/>}>
               <Route index element={<AdminDashboard/>}/>

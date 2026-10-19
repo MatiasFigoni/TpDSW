@@ -104,25 +104,35 @@ function Header() {
                             {user ? (
                                 <div className="mt-4 space-y-2 px-3 pb-2">
                                     <p className="text-sm text-gray-300">{user.name}</p>
-                                    <button
-                                        type="button"
+                                    <Link
+                                        to={'/'}
                                         onClick={() => {
                                             logout();
                                             setIsOpen(false);
                                         }}
-                                        className="w-full text-center bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base transition-colors"
+                                        className="w-full block text-center bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base transition-colors"
                                     >
                                         Cerrar sesión
-                                    </button>
+                                    </Link>
                                 </div>
                             ) : (
+                                <div>
+
                                 <Link
                                     to={"/login"}
                                     onClick={() => setIsOpen(false)}
-                                    className="w-full text-center block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base mt-4 transition-colors"
-                                >
+                                    className="text-gray-300 hover:text-white hover:bg-slate-700 block px-3 py-2 rounded-md text-base font-medium"
+                                    >
                                     Iniciar sesión
                                 </Link>
+
+                            
+                                <Link to={'/register'} 
+                                    onClick={()=>setIsOpen(false)} 
+                                    className="w-full text-center block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base mt-4 transition-colors">
+                                    Registrarse
+                                </Link>
+                                </div>
                             )}
                         </div>
                     </div>
