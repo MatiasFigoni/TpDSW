@@ -7,7 +7,7 @@ export class Employee extends Person{
 
   @Property({ persist:false })
   get role():string{
-    return 'employee';
+    return 'admin';
   }
 
 }

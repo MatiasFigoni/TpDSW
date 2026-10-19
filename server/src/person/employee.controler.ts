@@ -145,8 +145,7 @@ async function validateEmailAndPassword (req:Request, res:Response) {
         id: user.id,
         name: user.name,
         email: user.email,
-        isAdmin: true
-
+        role: user.role
       }
      });
     }

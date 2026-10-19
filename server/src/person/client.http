@@ -1,6 +1,7 @@
 ### obtener todas
 GET http://localhost:3000/api/clients
-
+###
+GET http://localhost:3000/api/employees
 
 #### obtener una 
 GET http://localhost:3000/api/clients/wachinsitomegamanero
@@ -13,7 +14,7 @@ Content-Type: application/json
   "name": "",
   "lastName": "",
   "phoneNumber":"" ,
-  "email": "wachincito@gmail.com",
+  "email": "client@gmail.com",
   "dni": "",
   "status": false,
   "username": "wachinsitofandelmegaman123",

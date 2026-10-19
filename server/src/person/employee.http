@@ -9,14 +9,15 @@ GET http://localhost:3000/api/employees/MegamansitoWachin
 POST http://localhost:3000/api/employees
 Content-Type: application/json
 x-role: admin
+
 {
   "name": "Wachin",
   "lastName":"Super",
   "phoneNumber": 3412243123,
-  "email": "wapi@gmail.com",
+  "email": "admin@gmail.com",
   "dni": 1234,
   "username": "wachincito123",
-  "password": "wapi123"
+  "password": "admin123"
 }
 
 #     name: req.body.name,
@@ -55,6 +56,6 @@ POST  http://localhost:3000/api/employees/login
 Content-Type: application/json
 
 {
-  "email": "wapi@gmail.com",
-  "password": "wapi123"
+  "email": "admin@gmail.com",
+  "password": "admin123"
 }

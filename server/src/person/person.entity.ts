@@ -3,22 +3,22 @@ import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 
 @Entity({ abstract: true })
 export abstract class Person extends BaseEntity {
-  @Property()
+  @Property({nullable: true})
   name!: string;
 
-  @Property()
+  @Property({nullable: true})
   lastName!: string;
 
-  @Property()
+  @Property({nullable: true})
   phoneNumber!: string;
 
   @Property()
   email!: string;
 
-  @Property()
+  @Property({nullable: true})
   dni!: string;
 
-  @Property()
+  @Property({nullable: true})
   username!: string;
 
   @Property()

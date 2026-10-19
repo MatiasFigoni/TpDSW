@@ -57,12 +57,12 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
   try {
-    const EmailToValidate= req.body.sanitizedInput.email
+    const EmailToValidate= req.body.sanitizedInput.email;
     const ExistingUser= await em.findOne(Client,{email:EmailToValidate });
 
     if (ExistingUser) {
       return res.status(400).json({message:'Email is already registered, please use another one'})
-    }        
+    };
     const client = em.create(Client, req.body.sanitizedInput)
     await em.flush()
   
@@ -112,7 +112,7 @@ async function validateEmailAndPassword (req:Request, res:Response) {
           id: user.id,
           name: user.name, 
           email: user.email,
-          isAdmin: false 
+          role: user.role,
         }
       });
     } else  {
