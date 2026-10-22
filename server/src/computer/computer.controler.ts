@@ -31,21 +31,55 @@ function sanitizeComputerData(req: Request, res: Response, next: NextFunction) {
 
 async function findAll(req: Request, res: Response) {
   try {
+    const { page, limit, category } = req.query;
+
+    const where: any = {};
+    if (category) {
+      const categoryId = Number(category);
+      if (!Number.isNaN(categoryId)) where.category = categoryId;
+    }
+
+    if (page !== undefined && limit !== undefined) {
+      const pageNum = Math.max(1, Number.parseInt(page as string) || 1);
+      const limitNum = Math.max(1, Number.parseInt(limit as string) || 5);
+      const offset = (pageNum - 1) * limitNum;
+
+      const [computers, total] = await em.findAndCount(
+        Computer,
+        where,
+        {
+          populate: ['category', 'maintenance'],
+          limit: limitNum,
+          offset: offset,
+          orderBy: { pcNumber: 'ASC' }
+        }
+      );
+
+      return res.json({
+        message: 'found paginated computers',
+        data: computers,
+        meta: {
+          total,
+          page: pageNum,
+          limit: limitNum,
+          totalPages: Math.ceil(total / limitNum) || 1
+        }
+      });
+    }
+
     const computer = await em.find(
       Computer,
-      {},
+      where,
       { populate: ['category', 'maintenance'] }
-
-
-    )
+    );
     if (computer.length === 0)
       return res.status(404).json({
         message: 'the computer database is empty.',
         data: [],
-      })
+      });
     res.json({ message: 'found all computers', data: computer });
   } catch (error: any) {
-    res.status(500).json({ message: error.mesage })
+    res.status(500).json({ message: error.message });
   }
 }
 

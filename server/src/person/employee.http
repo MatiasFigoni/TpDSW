@@ -54,8 +54,9 @@ DELETE http://localhost:3000/api/employees/1
 ###Tryna log to work
 POST  http://localhost:3000/api/employees/login
 Content-Type: application/json
+x-role: admin
 
 {
-  "email": "admin@gmail.com",
-  "password": "admin123"
+  "email": "[EMAIL_ADDRESS]",
+  "password": "[PASSWORD]"
 }
