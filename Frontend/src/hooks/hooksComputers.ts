@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createComputer, deleteComputer, fetchComputerNumberLatestMaintenance, updateComputer } from '../services/computer.services.ts';
+
+import { createComputer, deleteComputer, fetchComputerNumberLatestMaintenance, fetchComputersPaginated, updateComputer } from '../services/computer.services.ts';
+
 import type { Computer, CreateComputer } from '../types/computer.class.ts';
 import { fetchAviableComputers } from '../services/turns.services.ts';
-
-
 
 export function useComputerPcNumber(computerId:string,enabled:boolean = true){
 return useQuery({
@@ -21,6 +21,14 @@ return useQuery({
 
 }
 
+export function usePaginatedComputers(page: number, limit: number = 5, categoryId: string = '') {
+  return useQuery({
+    queryKey: ['computers-paginated', page, limit, categoryId],
+    queryFn: () => fetchComputersPaginated(page, limit, categoryId),
+    placeholderData: (previousData) => previousData,
+  });
+}
+
 export function useComputerModify() {
 	const queryClient = useQueryClient();
 
@@ -30,6 +38,7 @@ export function useComputerModify() {
 			await Promise.all([
 				queryClient.invalidateQueries({ queryKey: ['computer'] }),
 				queryClient.invalidateQueries({ queryKey: ['computers-map'] }),
+				queryClient.invalidateQueries({ queryKey: ['computers-paginated'] }),
 			]);
 		},
 	});
@@ -43,6 +52,7 @@ export function useComputerCreate(){
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['computer'] }),
         queryClient.invalidateQueries({ queryKey: ['computers-map'] }),
+        queryClient.invalidateQueries({ queryKey: ['computers-paginated'] }),
       ]);
     },
   });
@@ -54,7 +64,10 @@ export function useComputerDelete() {
     mutationFn: (params:{pcNumber: string,role:string}) => deleteComputer(params.pcNumber,params.role),
     onSuccess: async (_data, { pcNumber }) => {
       queryClient.removeQueries({ queryKey: ['computer', pcNumber], exact: true });
-      await queryClient.invalidateQueries({ queryKey: ['computers-map'] });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['computers-map'] }),
+        queryClient.invalidateQueries({ queryKey: ['computers-paginated'] }),
+      ]);
     },
   });
 }

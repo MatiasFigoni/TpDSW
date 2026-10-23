@@ -1,6 +1,38 @@
 import { api } from "./api.ts";
 import { Computer, type CreateComputer } from "../types/computer.class.ts";
 
+export interface PaginatedResponse<T> {
+  message: string;
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export async function fetchComputersPaginated(
+  page: number,
+  limit: number,
+  categoryId?: string
+): Promise<PaginatedResponse<Computer>> {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+  });
+  if (categoryId) {
+    params.append('category', categoryId);
+  }
+
+  const response = await api(`/api/computers?${params.toString()}`);
+  if (response.status === 404) {
+    throw new Error('No hay computadoras registradas');
+  }
+  if (!response.ok) throw new Error('Error en la petición de computadoras');
+  return response.json();
+}
+
 export async function fetchComputers(categoryId?: string): Promise<Computer[]> {
   const url = categoryId ? `/api/computers/category/${categoryId}` : `/api/computers/`;
   const response = await api(url);
