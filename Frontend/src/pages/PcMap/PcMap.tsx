@@ -1,42 +1,28 @@
-import { Gamepad2, BriefcaseBusiness, Mouse, ArrowRight, } from 'lucide-react';
+import { Mouse, ArrowRight, } from 'lucide-react';
 import { Computer } from "../../types/computer.class.ts";
 import './PcMap.css';
 import PcDescription from '../../components/PcItemDescription/PcItemDescription.tsx'
 import { useState } from "react";
 import Loading from "../../components/Loading/loading.tsx";
 import Error from "../../components/Error/Error.tsx";
-
+import { getStylesComponent, type StylesItem } from '../../utils/StylesComputers.tsx';
 import CategorySelect from "../../components/CategorySelect/CategorySelect.tsx";
 import { useComputers } from "../../hooks/hooksComputers.ts";
 import { useCategoryId } from '../../hooks/hooksCategories.ts';
 
-interface StylesItem {
-    bg: string,
-    toolItem: React.JSX.Element,
-}
-
-export const getStyles = (c: Computer) => {
-    let styles: StylesItem;
-    switch (c.category.description) {
-        case 'gamer':
-            styles = { bg: 'bg-blue-500/10 border-blue-500/40 text-blue-500 hover:bg-blue-500/20', toolItem: <Gamepad2 /> };
-            break;
-        case 'oficina':
-            styles = { bg: 'bg-emerald-500/10 border-emerald-500/40 text-emerald-500 hover:bg-emerald-500/20', toolItem: <BriefcaseBusiness /> }
-            break;
-        default:
-            styles = { bg: '', toolItem: <></> };
-            break;
-    }
-    return styles;
-}
 
 function PcMap() {
     const [selectedPc, setSelectedPc] = useState<Computer>();
     const [category, setCategory] = useState<string>('');
+    // const [fecha,setFecha] = useState<Date>();
+    // const [hora,setHora] = useState<string>();
+
+    //Sacar cuando este el input de fecha y hora
+    const fecha = new Date('2026-10-15');
+    const hora = '10'
 
     const { data: categoryId } = useCategoryId(category);
-    const { data: computerQuery, isPending, isError, error } = useComputers(categoryId)
+    const { data: computerQuery, isPending, isError, error } = useComputers(fecha,hora,categoryId)
 
     const handlerCategory = (description: string): void => {
         setCategory(description);
@@ -76,11 +62,11 @@ function PcMap() {
                         </div>
                         <div className="flex justify-center grid-computers">
                             {computerQuery.map((c: Computer) => {
-                                const styles: StylesItem = getStyles(c);
+                                const styles: StylesItem = getStylesComponent(c);
                                 const isSelected = selectedPc?.id === c.id;
                                 return (
                                     <div key={c.id}
-                                        onClick={() => c.status === 'disponible' && setSelectedPc(c)}
+                                        onClick={() => c.status.toLocaleLowerCase() === 'disponible' && setSelectedPc(c)}
                                         className={`relative w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl border-2 flex justify-center items-center group 
                                                 ${c.status === 'mantenimiento' ? 'bg-zinc-800 border-zinc-700 text-zinc-500 opacity-50 cursor-not-allowed' : ''} 
                                                 ${styles.bg}
