@@ -10,13 +10,14 @@ function Header() {
 
     const navLinks = [
         { name: "Inicio", to: "/" },
+        { name: 'Reservar', to: '/reservar'},
         { name: 'Equipos', to: '/PcMap'},
         {name: 'Nosotros', to: '/about'}
     ];
     const navLinksAdmin = [
         { name:'Inicio', to:'/admin' },
+        { name: 'Panel Reservas', to: '/admin/TurnAdmin'},
         { name: 'Panel Computadoras', to: '/admin/PcAdmin'},
-        // { name: 'Panel Reservas', to: '/admin/TurnAdmin'},
         // { name: 'Panel Categorias', to: '/admin/CategoryAdmin'},
     ]
 

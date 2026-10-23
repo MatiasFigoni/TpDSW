@@ -23,10 +23,11 @@ function Home() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <button
+                    <Link
+                        to={'/reservar'}
                         className="w-full sm:w-auto bg-blue-600 text-white font-medium px-8 py-3.5 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
                         Reserva Rápida
-                    </button>
+                    </Link>
                     <Link
                         to={'/PcMap'}
                         className="w-full sm:w-auto bg-zinc-900 text-zinc-100 font-medium px-8 py-3.5 rounded-xl hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 border border-zinc-800"

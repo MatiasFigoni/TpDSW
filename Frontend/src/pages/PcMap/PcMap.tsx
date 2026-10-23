@@ -1,4 +1,5 @@
-import { Gamepad2, BriefcaseBusiness, Mouse, ArrowRight, } from 'lucide-react';
+import { Gamepad2, BriefcaseBusiness, Mouse, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router';
 import { Computer } from "../../types/computer.class.ts";
 import './PcMap.css';
 import PcDescription from '../../components/PcItemDescription/PcItemDescription.tsx'
@@ -127,10 +128,13 @@ function PcMap() {
                             <>
                                 <PcDescription selectedPc={selectedPc} />
                                 <div className="pt-6 border-t border-zinc-800 mt-auto">
-                                    <button className="w-full bg-blue-600 text-white font-medium py-3.5 rounded-xl hover:bg-blue-700 transition-colors flex justify-center items-center gap-2 shadow-lg shadow-blue-600/20">
+                                    <Link
+                                        to="/reservar"
+                                        className="w-full bg-blue-600 text-white font-medium py-3.5 rounded-xl hover:bg-blue-700 transition-colors flex justify-center items-center gap-2 shadow-lg shadow-blue-600/20"
+                                    >
                                         <span>Reservar este Equipo</span>
                                         <ArrowRight className="w-4 h-4" />
-                                    </button>
+                                    </Link>
                                 </div>
                             </>
                         )}
