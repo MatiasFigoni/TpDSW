@@ -64,7 +64,7 @@ export async function findAvailableComputers(req: Request, res: Response) {
     const collidingTurns = await em.find(Turn, {
       startTime: { $lt: endTime },
       endTime: { $gt: startTime },
-      status: { $in: ['PENDIENTE', 'RESERVADO'] },
+      status: { $in: ['PENDIENTE', 'RESERVADO', 'INICIADO'] },
     });
 
     const occupiedComputerIds = collidingTurns.map((turn) => turn.computer.id);
@@ -137,7 +137,7 @@ export async function createTurn(req: Request, res: Response) {
 
     const turnsPc = await em.find(Turn, {
       computer: computer.id,
-      status: { $in: ['RESERVADO', 'PENDIENTE'] },
+      status: { $in: ['RESERVADO', 'PENDIENTE', 'INICIADO'] },
       startTime: { $lt: end },
       endTime: { $gt: start },
     });
@@ -147,7 +147,7 @@ export async function createTurn(req: Request, res: Response) {
 
     const turnsClient = await em.find(Turn, {
       client: client.id,
-      status: { $in: ['RESERVADO', 'PENDIENTE'] },
+      status: { $in: ['RESERVADO', 'PENDIENTE', 'INICIADO'] },
       startTime: { $lt: end },
       endTime: { $gt: start },
     });
@@ -189,7 +189,7 @@ export async function createTurn(req: Request, res: Response) {
 export async function findAll (req: Request, res: Response) {
   try {
     const em = orm.em.fork();
-    const turns = await em.find(Turn, {}  , { populate: ['computer', 'client', 'pays'] });
+    const turns = await em.find(Turn, {}  , { populate: ['computer', 'computer.category', 'client', 'pays'] });
     return res.json({ data: turns });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
@@ -203,7 +203,7 @@ export async function findOne(req: Request, res: Response) {
     if (isNaN(id)) {
       return res.status(400).json({ message: 'El ID del turno debe ser un número válido.' });
     }
-    const turn = await em.findOne(Turn, { id }, { populate: ['computer', 'client', 'pays'] });
+    const turn = await em.findOne(Turn, { id }, { populate: ['computer', 'computer.category', 'client', 'pays'] });
     if (!turn) {
       return res.status(404).json({ message: 'Turno no encontrado.' });
     }
@@ -221,12 +221,22 @@ export async function updateTurn(req: Request, res: Response) {
     if (isNaN(id)) {
       return res.status(400).json({ message: 'El ID del turno debe ser un número válido.' });
     }
-    const turn = await em.findOne(Turn, { id }, { populate: ['computer', 'client', 'pays'] });
+    const turn = await em.findOne(Turn, { id }, { populate: ['computer', 'computer.category', 'client', 'pays'] });
     if (!turn) {
       return res.status(404).json({ message: 'Turno no encontrado.' });
     }
     const input = req.body.sanitizedInput;
-    if (input.status !== undefined) turn.status = input.status;
+
+    if (input.status !== undefined) {
+      // Si se quiere cambiar a INICIADO pero ya estaba finalizado o cancelado
+      if (input.status === 'INICIADO' && (turn.status === 'CANCELADO' || turn.status === 'FINALIZADO')) {
+        return res.status(400).json({
+          message: `No se puede realizar el check-in de un turno que se encuentra en estado ${turn.status}.`,
+        });
+      }
+      turn.status = input.status;
+    }
+
     if (input.extraPrice !== undefined) turn.extraPrice = Number(input.extraPrice);
     if (input.duration !== undefined) turn.duration = Number(input.duration);
     if (input.startTime !== undefined) turn.startTime = new Date(input.startTime);
@@ -251,6 +261,100 @@ export async function removeTurn(req: Request, res: Response) {
     await em.remove(turn);
     await em.flush();
     return res.status(200).json({ message: 'Turno eliminado exitosamente' });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export async function findAvailableHours(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const { date, categoryId } = req.query;
+
+    if (!date) {
+      return res.status(400).json({
+        message: 'Parametro obligatorio faltante: date (YYYY-MM-DD)',
+      });
+    }
+
+    const [year, month, day] = (date as string).split('-').map(Number);
+    const targetDate = new Date(year, month - 1, day);
+
+    if (isNaN(targetDate.getTime())) {
+      return res.status(400).json({
+        message: 'La fecha debe tener el formato YYYY-MM-DD',
+      });
+    }
+
+    if (targetDate.getDay() === 1) {
+      return res.status(200).json({
+        date,
+        availableHours: [],
+      });
+    }
+
+    const dayStart = new Date(year, month - 1, day, 8, 0, 0, 0);
+    const dayEnd = new Date(year, month - 1, day, 24, 0, 0, 0);
+
+    const collidingTurns = await em.find(
+      Turn,
+      {
+        startTime: { $lt: dayEnd },
+        endTime: { $gt: dayStart },
+        status: { $in: ['PENDIENTE', 'RESERVADO', 'INICIADO'] },
+      },
+      { populate: ['computer'] }
+    );
+
+    const computerFilter: any = {
+      status: 'Disponible',
+    };
+
+    if (categoryId) {
+      const catId = Number(categoryId);
+      if (!isNaN(catId)) {
+        computerFilter.category = catId;
+      }
+    }
+
+    const availableComputers = await em.find(Computer, computerFilter);
+    const totalComputersCount = availableComputers.length;
+
+    if (totalComputersCount === 0) {
+      return res.status(200).json({
+        date,
+        availableHours: [],
+      });
+    }
+
+    const validComputerIds = new Set(availableComputers.map((c) => c.id));
+
+    const availableHours: number[] = [];
+    for (let h = 8; h < 24; h++) {
+      const slotStart = new Date(year, month - 1, day, h, 0, 0, 0);
+      const slotEnd = new Date(year, month - 1, day, h + 1, 0, 0, 0);
+
+      const occupiedInSlot = new Set(
+        collidingTurns
+          .filter(
+            (t) =>
+              t.startTime < slotEnd &&
+              t.endTime > slotStart &&
+              validComputerIds.has(t.computer.id)
+          )
+          .map((t) => t.computer.id)
+      );
+
+      const freeCount = totalComputersCount - occupiedInSlot.size;
+      if (freeCount > 0) {
+        availableHours.push(h);
+      }
+    }
+
+    return res.status(200).json({
+      date,
+      availableHours,
+    });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }

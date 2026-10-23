@@ -14,10 +14,10 @@ Content-Type: application/json
   "name": "",
   "lastName": "",
   "phoneNumber":"" ,
-  "email": "client@gmail.com",
+  "email": "client1@gmail.com",
   "dni": "",
   "status": false,
-  "username": "wachinsitofandelmegaman123",
+  "username": "Juan",
   "password": "123"
 }
 
