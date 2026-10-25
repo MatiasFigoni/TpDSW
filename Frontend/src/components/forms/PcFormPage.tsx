@@ -1,13 +1,13 @@
 import { Link } from "react-router";
 import { Controller, useForm } from "react-hook-form";
 import CategorySelect from "../CategorySelect/CategorySelect.tsx";
-import type { Computer } from "../../types/computer.class.ts";
+import type { Computer, ComputerStatus } from "../../types/computer.class.ts";
 import { useState } from "react";
 
 export interface FormComputer {
 	PcNumber: number,
 	PcDescription: string,
-	PcStatus: string,
+	PcStatus: ComputerStatus,
 	PcCategory: string,
 }
 
@@ -24,13 +24,13 @@ interface PcModifyProps {
 function PcFormPage({ computer, onSubmit, isSubmitting = false, submitError, submitSuccess = false, onDelete, mode }: PcModifyProps) {
     const stylesTexts = 'text-lg my-2';
     const stylesCampForm = 'bg-zinc-950 border border-zinc-800/50 hover:border-zinc-700 text-zinc-200 px-3 py-2';
-	const [panelDelete,setpanelDelete] = useState<Boolean>(false);
+	const [panelDelete,setpanelDelete] = useState<boolean>(false);
 	const [isDeleting,setIsDeleting] = useState<boolean>(false)
 	const { register, handleSubmit, control } = useForm<FormComputer>({
 		defaultValues: {
 			PcNumber: computer?.pcNumber ?? 0,
 			PcDescription: computer?.description ?? '',
-			PcStatus: computer?.status ?? 'disponible', 
+			PcStatus: computer?.status ?? 'Disponible', 
 			PcCategory: computer?.category.name ?? '',
 		}
 	});

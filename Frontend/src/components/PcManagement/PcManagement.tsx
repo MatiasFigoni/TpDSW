@@ -43,7 +43,7 @@ function PcManagement() {
     }
 
     const handleModify = (values: FormComputer): void => {
-        const category = categories?.find((item) => item.description === values.PcCategory);
+        const category = categories?.find((item) => item.name === values.PcCategory);
         if (!category) return;
         const updatedComputer = new Computer(
             computer!.id,

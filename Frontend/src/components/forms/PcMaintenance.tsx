@@ -9,8 +9,8 @@ interface FormMaintenance{
 interface PcMaintenanceProps{
 	lastMaintenance: Maintenance,
 }
-function PcMaintenance({  }:PcMaintenanceProps){
-	const { } = useForm<FormMaintenance>({
+function PcMaintenance({ lastMaintenance: _lastMaintenance }: PcMaintenanceProps) {
+	const { register: _register } = useForm<FormMaintenance>({
 		defaultValues: {
 		}
 	})

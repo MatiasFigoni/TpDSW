@@ -1,14 +1,17 @@
 import { Category } from './category.class.ts';
 import type { Maintenance } from './maintenance.class.ts';
+
+export type ComputerStatus = 'Disponible' | 'Mantenimiento';
+
 export class Computer {
     id: string;
     category: Category;
     description: string;
-    maintenance?:Maintenance;
+    maintenance?: Maintenance;
     pcNumber: number;
-    status: string;
+    status: ComputerStatus;
 
-    constructor(id: string, category: Category, description: string, pcNumber: number, status: string, maintenance?:Maintenance,) {
+    constructor(id: string, category: Category, description: string, pcNumber: number, status: ComputerStatus, maintenance?: Maintenance,) {
         this.id = id;
         this.category = category;
         this.description = description;
@@ -18,9 +21,9 @@ export class Computer {
     }
 }
 
-export interface CreateComputer{
+export interface CreateComputer {
     category: number;
     description: string;
     pcNumber: number;
-    status: string;
+    status: ComputerStatus;
 }

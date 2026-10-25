@@ -10,8 +10,9 @@ function Header() {
 
     const navLinks = [
         { name: "Inicio", to: "/" },
+        { name: "Reservar", to: "/reservation" },
         { name: 'Equipos', to: '/PcMap'},
-        {name: 'Nosotros', to: '/about'}
+        { name: 'Nosotros', to: '/about'}
     ];
     const navLinksAdmin = [
         { name:'Inicio', to:'/admin' },
