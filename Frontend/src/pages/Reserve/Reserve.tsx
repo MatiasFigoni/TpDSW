@@ -7,9 +7,9 @@ import type { Category } from "../../types/category.class.ts";
 import type { Computer } from "../../types/computer.class.ts";
 import StepHeader from "../../components/Reservation/StepHeader.tsx";
 import StepCategory from "../../components/Reservation/StepCategory.tsx";
-import StepDateTime from "../../components/Reservation/StepDateTime.tsx";
+import StepDateTime from "../../components/Reservation/StepDateTime/StepDateTime.tsx";
 import StepComputer from "../../components/Reservation/StepComputer.tsx";
-import StepConfirmation from "../../components/Reservation/StepConfirmation.tsx";
+import StepConfirmation from "../../components/Reservation/StepConfirm/StepConfirmation.tsx";
 import Loading from "../../components/Loading/loading.tsx";
 import type { PaymentMethod } from "../../types/pay.type.ts";
 

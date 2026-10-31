@@ -26,6 +26,7 @@ export function useCreateTurn() {
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["availability"] }),
+                queryClient.invalidateQueries({ queryKey: ["turns-all"] }),
                 queryClient.invalidateQueries({ queryKey: ["computers-map"] }),
             ]);
         },
@@ -80,6 +81,7 @@ export function useReserveWithPayment() {
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["availability"] }),
+                queryClient.invalidateQueries({ queryKey: ["turns-all"] }),
                 queryClient.invalidateQueries({ queryKey: ["computers-map"] }),
             ]);
         },

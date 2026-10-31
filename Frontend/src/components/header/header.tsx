@@ -6,18 +6,18 @@ import { useAuth } from "../../hooks/useAuth.ts";
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const { user, logout } = useAuth();
-    const isAdmin = user?.role === 'admin' ;
+    const isAdmin = user?.role === 'admin';
 
     const navLinks = [
         { name: "Inicio", to: "/" },
         { name: "Reservar", to: "/reservation" },
-        { name: 'Equipos', to: '/PcMap'},
-        { name: 'Nosotros', to: '/about'}
+        { name: 'Equipos', to: '/PcMap' },
+        { name: 'Nosotros', to: '/about' }
     ];
     const navLinksAdmin = [
-        { name:'Inicio', to:'/admin' },
-        { name: 'Panel Computadoras', to: '/admin/PcAdmin'},
-        // { name: 'Panel Reservas', to: '/admin/TurnAdmin'},
+        { name: 'Inicio', to: '/admin' },
+        { name: 'Panel Reservas', to: '/admin/TurnAdmin' },
+        { name: 'Panel Computadoras', to: '/admin/PcAdmin' },
         // { name: 'Panel Categorias', to: '/admin/CategoryAdmin'},
     ]
 
@@ -80,9 +80,9 @@ function Header() {
                                 <span className="sr-only">Abrir menú principal</span>
                                 {/* Icono dinámico según el estado (renderiza el menu de hambuergesa y la cruz)*/}
                                 {isOpen ? (
-                                    <X/>
+                                    <X />
                                 ) : (
-                                    <Menu/>
+                                    <Menu />
                                 )}
                             </button>
                         </div>
@@ -119,21 +119,19 @@ function Header() {
                                 </div>
                             ) : (
                                 <div>
-
-                                <Link
-                                    to={"/login"}
-                                    onClick={() => setIsOpen(false)}
-                                    className="text-gray-300 hover:text-white hover:bg-slate-700 block px-3 py-2 rounded-md text-base font-medium"
+                                    <Link
+                                        to={"/login"}
+                                        onClick={() => setIsOpen(false)}
+                                        className="text-gray-300 hover:text-white hover:bg-slate-700 block px-3 py-2 rounded-md text-base font-medium"
                                     >
-                                    Iniciar sesión
-                                </Link>
+                                        Iniciar sesión
+                                    </Link>
 
-                            
-                                <Link to={'/register'} 
-                                    onClick={()=>setIsOpen(false)} 
-                                    className="w-full text-center block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base mt-4 transition-colors">
-                                    Registrarse
-                                </Link>
+                                    <Link to={'/register'}
+                                        onClick={() => setIsOpen(false)}
+                                        className="w-full text-center block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg text-base mt-4 transition-colors">
+                                        Registrarse
+                                    </Link>
                                 </div>
                             )}
                         </div>

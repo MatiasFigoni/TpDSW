@@ -1,9 +1,9 @@
 import { CheckCircle2, Receipt } from "lucide-react";
 import { Link } from "react-router";
-import type { ReservationDraft } from "../../../types/reservation.types";
-import { formatHour, formatLongDate, formatPrice } from "../../../utils/reservationDates";
-import type { Person } from "../../../types/person.class";
-import type { PaymentInfo } from "../../../types/pay.type";
+import type { ReservationDraft } from "../../../../types/reservation.types";
+import { formatHour, formatLongDate, formatPrice } from "../../../../utils/reservationDates";
+import type { Person } from "../../../../types/person.class";
+import type { PaymentInfo } from "../../../../types/pay.type";
 
 interface PropsCardConfirm {
     isTarjeta: boolean;

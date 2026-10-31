@@ -1,5 +1,5 @@
 import { Clock } from "lucide-react";
-import { formatHour } from "../../../utils/reservationDates";
+import { formatHour } from "../../../../utils/reservationDates";
 interface PropsSelectorTime {
     availableHours: number[];
     date: string;

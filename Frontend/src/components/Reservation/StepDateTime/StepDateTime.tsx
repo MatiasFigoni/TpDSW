@@ -1,17 +1,9 @@
 import { Sparkles } from "lucide-react";
-import {
-    OPENING_HOUR,
-    CLOSING_HOUR,
-    BOOKING_WINDOW_DAYS,
-} from "../../types/reservation.types.ts";
-import {
-    nextDays,
-    toLocalDateKey,
-    isClosedDay,
-} from "../../utils/reservationDates.ts";
-import SelectorHour from "./StepDateTimeComponents/SelectorHour.tsx";
-import SelectorDay from "./StepDateTimeComponents/SelectorDay.tsx";
-import SelectorTime from "./StepDateTimeComponents/SelectorTime.tsx";
+import { BOOKING_WINDOW_DAYS, CLOSING_HOUR, OPENING_HOUR } from "../../../types/reservation.types.ts";
+import { isClosedDay, nextDays, toLocalDateKey } from "../../../utils/reservationDates.ts";
+import SelectorHour from "./components/SelectorHour.tsx";
+import SelectorDay from "./components/SelectorDay.tsx";
+import SelectorTime from "./components/SelectorTime.tsx";
 
 interface StepDateTimeProps {
     date: string | null;

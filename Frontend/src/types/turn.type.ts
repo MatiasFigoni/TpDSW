@@ -1,21 +1,26 @@
 import type { Computer } from "./computer.class.ts";
 import type { Person } from "./person.class.ts";
 
-export const EstadoTurno = {
-    Pendiente: 'pendiente',
-    Reservado: 'reservado',
-    Finalizado: 'finalizado'
-} as const;
-export type EstadoTurno = (typeof EstadoTurno)[keyof typeof EstadoTurno];
+export type TurnStatus = 'PENDIENTE' | 'RESERVADO' | 'INICIADO' | 'FINALIZADO' | 'CANCELADO';
+
+export interface PayInfo {
+    id: number;
+    amount: number;
+    status: string;
+    date: string;
+    method: string;
+    transactionId: string;
+}
 
 export interface Turn {
     id: number;
-    dateTime: Date | string;
-    startTime: Date | string;
-    endTime: Date | string;
+    dateTime: string;
+    startTime: string;
+    endTime: string;
     duration: number;
     extraPrice: number;
-    status: EstadoTurno;
-    computers: Computer;
-    clients: Person;
+    status: TurnStatus;
+    computer: Computer;
+    client: Person;
+    pays?: PayInfo[];
 }

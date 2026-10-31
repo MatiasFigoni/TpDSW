@@ -1,5 +1,5 @@
 import { Clock } from "lucide-react";
-import { MAX_DURATION } from "../../../types/reservation.types";
+import { MAX_DURATION } from "../../../../types/reservation.types";
 interface PropsSelectHour {
     duration: number;
     onChangeDuration: (duration: number) => void;

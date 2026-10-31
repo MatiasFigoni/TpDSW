@@ -1,5 +1,5 @@
 import { AlertCircle, CalendarIcon } from "lucide-react";
-import { isClosedDay, toLocalDateKey } from "../../../utils/reservationDates";
+import { isClosedDay, toLocalDateKey } from "../../../../utils/reservationDates";
 interface PropsSelectorDay {
     days: Date[];
     date: string | null;

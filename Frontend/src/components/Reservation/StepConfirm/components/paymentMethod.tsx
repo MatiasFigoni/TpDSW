@@ -1,6 +1,6 @@
 import { AlertCircle, Banknote, CreditCard } from "lucide-react";
-import { formatPrice } from "../../../utils/reservationDates";
-import type { PaymentMethod } from "../../../types/pay.type.ts";
+import { formatPrice } from "../../../../utils/reservationDates.ts";
+import type { PaymentMethod } from "../../../../types/pay.type.ts";
 
 interface Props {
     paymentMethod: PaymentMethod | null;

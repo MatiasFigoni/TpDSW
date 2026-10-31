@@ -1,13 +1,13 @@
 import { Calendar, Clock, Monitor, MapPin } from "lucide-react";
-import type { ReservationDraft } from "../../types/reservation.types.ts";
-import type { Person } from "../../types/person.class.ts";
-import type { Turn } from "../../types/turn.type.ts";
-import { formatLongDate, formatHour } from "../../utils/reservationDates.ts";
-import CardConfirm from "./StepConfirmComponents/CardConfirm.tsx";
-import PaymentMethodComponent from "./StepConfirmComponents/paymentMethod.tsx";
-import PaymentResume from "./StepConfirmComponents/PaymentResume.tsx";
-import UserValidation from "./StepConfirmComponents/UserValidation.tsx";
-import type { PaymentInfo, PaymentMethod } from "../../types/pay.type.ts";
+import type { ReservationDraft } from "../../../types/reservation.types.ts";
+import type { Person } from "../../../types/person.class.ts";
+import type { Turn } from "../../../types/turn.type.ts";
+import { formatLongDate, formatHour } from "../../../utils/reservationDates.ts";
+import type { PaymentInfo, PaymentMethod } from "../../../types/pay.type.ts";
+import CardConfirm from "./components/CardConfirm.tsx";
+import PaymentMethodComponent from "./components/paymentMethod.tsx";
+import UserValidation from "./components/UserValidation.tsx";
+import PaymentResume from "./components/PaymentResume.tsx";
 
 interface StepConfirmationProps {
     draft: ReservationDraft;

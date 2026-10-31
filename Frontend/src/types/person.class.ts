@@ -1,30 +1,30 @@
 export class Person {
     id: number;
     name: string;
-    lastname?: string;
+    lastName?: string;
     phoneNumber?: string;
     dni?: string;
     email: string;
     username?: string;
     role: string;
-    status?:boolean;
+    status?: boolean;
 
     constructor(person: {
         id: number;
         name: string;
         email: string;
         role: string;
-        lastname?: string;
+        lastName?: string;
         phoneNumber?: string;
         dni?: string;
         username?: string;
-        status?:boolean;
+        status?: boolean;
     }) {
         this.id = person.id;
         this.name = person.name;
         this.email = person.email;
         this.role = person.role;
-        this.lastname = person.lastname;
+        this.lastName = person.lastName;
         this.phoneNumber = person.phoneNumber;
         this.dni = person.dni;
         this.username = person.username;

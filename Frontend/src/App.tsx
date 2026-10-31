@@ -10,6 +10,7 @@ import Login from "./pages/Login/Login.tsx";
 import AuthProvider from "./context/AuthProvider.tsx";
 import { UserRegister } from "./pages/Register/register.tsx";
 import Reserve from "./pages/Reserve/Reserve.tsx";
+import TurnAdmin from "./pages/TurnAdmin/TurnAdmin.tsx";
 
 // import { useAuth } from "./hooks/useAuth.ts";
 // import PcMaintenance from "./components/forms/PcMaintenance.tsx";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/admin/PcAdmin" element={<PcAdmin />} />
               <Route path="/admin/PcAdmin/new" element={<PcManagement />} />
               <Route path="/admin/PcAdmin/:id" element={<PcManagement />} />
+              <Route path="/admin/TurnAdmin" element={<TurnAdmin />} />
               {/* <Route path="/admin/PcAdmin/:id/maintenance" element={<PcMaintenance/>}/> */}
             </Route>
           </Routes>

@@ -1,6 +1,6 @@
 import { AlertCircle, ShieldCheck, User as UserIcon } from "lucide-react";
 import { Link } from "react-router";
-import type { Person } from "../../../types/person.class";
+import type { Person } from "../../../../types/person.class";
 
 interface PropsUserValidation {
     user: Person | null;

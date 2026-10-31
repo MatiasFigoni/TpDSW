@@ -1,8 +1,8 @@
 import { AlertCircle, ArrowRight, CalendarCheck, CreditCard } from "lucide-react";
-import { formatPrice } from "../../../utils/reservationDates";
-import type { Computer } from "../../../types/computer.class";
-import type { PaymentMethod } from "../../../types/pay.type";
-import type { Person } from "../../../types/person.class";
+import { formatPrice } from "../../../../utils/reservationDates";
+import type { Computer } from "../../../../types/computer.class";
+import type { PaymentMethod } from "../../../../types/pay.type";
+import type { Person } from "../../../../types/person.class";
 interface PropsPaymentResume {
     user: Person | null;
     computer: Computer | null;

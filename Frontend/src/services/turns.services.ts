@@ -1,12 +1,25 @@
-import type { Computer } from "../types/computer.class.ts";
-import { formatDateForInput } from "../utils/formatDateForInput.ts";
 import { api } from "./api.ts";
+import type { Turn, TurnStatus } from "../types/turn.type.ts";
 
-export async function fetchAviableComputers(date:Date, hour:string, categoryId?:string): Promise<Computer[]>{
-    const url = categoryId ? `/api/turns/available-computers?date=${formatDateForInput(date)}&hour=${hour}&categoryId=${categoryId}`
-    : `/api/turns/available-computers?date=${formatDateForInput(date)}&hour=${hour}`;
-    const response = await api(url);
-    if (!response.ok) throw Error('No hay computadoras disponible');
+export async function fetchTurns(): Promise<Turn[]> {
+    const response = await api('/api/turns');
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error al obtener los turnos');
+    }
+    const result = await response.json();
+    return result.data;
+}
+
+export async function updateTurnStatus(id: number, status: TurnStatus): Promise<Turn> {
+    const response = await api(`/api/turns/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status }),
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error al actualizar el estado del turno');
+    }
     const result = await response.json();
     return result.data;
 }
